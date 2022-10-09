@@ -14,8 +14,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
+model Dish {
+    id                Int @id @default(autoincrement())
+    name              String
+    energy            Float
+    fat               Float
+    carb              Float
+    protein           Float
+    alcohol           Float?
+    iron              Float?
+    salt              Float?
+    vitaminc          Float?
 }
 
 // Necessary for Next auth

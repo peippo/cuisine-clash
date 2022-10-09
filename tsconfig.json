@@ -19,10 +19,12 @@
     "paths": {
       "@env/*": ["env/*"],
       "@pages/*": ["pages/*"],
+      "@components/*": ["components/*"],
       "@server/*": ["server/*"],
       "@styles/*": ["styles/*"],
-      "@types/*": ["types/*"],
-      "@utils/*": ["utils/*"]
+      "@customTypes/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@store/*": ["store/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

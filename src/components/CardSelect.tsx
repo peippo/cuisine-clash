@@ -2,7 +2,7 @@ import { trpc } from "@utils/trpc";
 import { SELECTION_POOL_COUNT } from "@utils/constants";
 import { useHandStore } from "@store/store";
 
-import Card from "@components/Card";
+import Card from "@components/Card/CardBase";
 import { useEffect } from "react";
 
 const CardSelect = () => {

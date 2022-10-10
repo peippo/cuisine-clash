@@ -7,7 +7,9 @@ import { useEffect } from "react";
 
 const CardSelect = () => {
   const clearHand = useHandStore((state) => state.clear);
-  const deck = trpc.deck.drawCards.useQuery(SELECTION_POOL_COUNT);
+  const deck = trpc.deck.drawCards.useQuery(SELECTION_POOL_COUNT, {
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     clearHand();

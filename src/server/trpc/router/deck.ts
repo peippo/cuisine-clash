@@ -7,14 +7,14 @@ export const deckRouter = t.router({
     .input(
       z.object({
         count: z.number(),
-        handCardIds: z.array(z.number()).optional(),
+        excludeIds: z.array(z.number()).optional(),
       })
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.dish.findMany({
         where: {
           id: {
-            in: getArrayOfRandomIds(input.count, input.handCardIds),
+            in: getArrayOfRandomIds(input.count, input.excludeIds),
           },
         },
       });

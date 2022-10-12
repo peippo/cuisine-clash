@@ -6,14 +6,14 @@ const getRandomBetween = (min: number, max: number) => {
 
 export const getArrayOfRandomIds = (
   count: number,
-  excludeList: number[] = []
+  excludeIds: number[] = []
 ) => {
   const randomIds: Array<number> = [];
 
   while (randomIds.length !== count) {
     const randomId = getRandomBetween(0, TOTAL_DISHES);
 
-    if (!randomIds.includes(randomId) && !excludeList.includes(randomId)) {
+    if (!randomIds.includes(randomId) && !excludeIds.includes(randomId)) {
       randomIds.push(randomId);
     }
   }

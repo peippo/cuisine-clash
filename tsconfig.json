@@ -20,6 +20,7 @@
       "@env/*": ["env/*"],
       "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
       "@server/*": ["server/*"],
       "@styles/*": ["styles/*"],
       "@customTypes/*": ["types/*"],

@@ -6,6 +6,20 @@ import {
 } from "@utils/constants";
 import create from "zustand";
 
+// Game state
+
+type views = "TITLE" | "DRAFTING" | "BATTLE";
+
+interface GameState {
+  view: views;
+  moveTo: (view: views) => void;
+}
+
+export const useGameStore = create<GameState>()((set) => ({
+  view: "TITLE",
+  moveTo: (view) => set(() => ({ view: view })),
+}));
+
 // Cards in hand
 
 interface HandState {

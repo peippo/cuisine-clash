@@ -17,15 +17,16 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": "src",
     "paths": {
-      "@env/*": ["env/*"],
-      "@pages/*": ["pages/*"],
       "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"],
-      "@server/*": ["server/*"],
-      "@styles/*": ["styles/*"],
       "@customTypes/*": ["types/*"],
+      "@env/*": ["env/*"],
+      "@hooks/*": ["hooks/*"],
+      "@pages/*": ["pages/*"],
+      "@server/*": ["server/*"],
+      "@store/*": ["store/*"],
+      "@styles/*": ["styles/*"],
       "@utils/*": ["utils/*"],
-      "@store/*": ["store/*"]
+      "@views/*": ["views/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

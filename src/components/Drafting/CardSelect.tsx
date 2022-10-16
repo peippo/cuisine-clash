@@ -7,6 +7,7 @@ import Card from "@components/Card/CardBase";
 const CardSelect = () => {
   const { newCards } = useDrawCards();
   const handCards = useHandStore((state) => state.cards);
+  const addToHand = useHandStore((state) => state.add);
   const tableCards = useDraftingStore((state) => state.tableCards);
   const setTableCards = useDraftingStore((state) => state.setTableCards);
 
@@ -21,8 +22,16 @@ const CardSelect = () => {
   return (
     <>
       <div className="flex flex-wrap justify-center">
-        {newCards.data || tableCards ? (
-          tableCards.map((card) => <Card key={card.id} card={card} />)
+        {newCards.data || tableCards.length ? (
+          tableCards.map((card) => (
+            <Card
+              key={card.id}
+              card={card}
+              onClickHandler={() => addToHand(card)}
+              isRevealed={handCards.includes(card)}
+              isDisabled={handCards.includes(card)}
+            />
+          ))
         ) : (
           <p>Shuffling cards...</p>
         )}

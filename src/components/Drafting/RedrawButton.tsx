@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import { MAX_DRAFT_CARDS } from "@utils/constants";
-import { useHandStore, useDraftingStore } from "@store/store";
+import { usePlayerCardStore, useDraftingStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
 
 const RedrawButton = () => {
-  const handCards = useHandStore((state) => state.cards);
-  const isHandFull = useHandStore((state) => state.isHandFull);
+  const handCards = usePlayerCardStore((state) => state.cards);
+  const isHandFull = usePlayerCardStore((state) => state.isHandFull);
   const redrawsLeft = useDraftingStore((state) => state.redrawsLeft);
   const redraw = useDraftingStore((state) => state.redraw);
-  const { newCards } = useDrawCards();
+  const { isLoading, refetch } = useDrawCards();
 
   const hasRedraws = redrawsLeft !== 0;
 
@@ -19,8 +19,8 @@ const RedrawButton = () => {
         "disabled:border-slate-600 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-400",
         "hover:border-indigo-700 hover:bg-gradient-to-b hover:from-indigo-900 hover:to-indigo-800"
       )}
-      onClick={() => redraw(newCards.refetch)}
-      disabled={!hasRedraws || isHandFull || newCards.isLoading}
+      onClick={() => redraw(refetch)}
+      disabled={!hasRedraws || isHandFull || isLoading}
     >
       <span
         className={classNames(

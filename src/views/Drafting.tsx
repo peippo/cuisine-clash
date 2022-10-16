@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useHandStore } from "@store/store";
+import { usePlayerCardStore } from "@store/store";
 import CardSelect from "@components/Drafting/CardSelect";
 import CardSelectCount from "@components/Drafting/CardSelectCount";
 import RedrawButton from "@components/Drafting/RedrawButton";
@@ -7,7 +7,7 @@ import Button from "@components/Button";
 import { useGameStore } from "@store/store";
 
 const Drafting = () => {
-  const isHandFull = useHandStore((state) => state.isHandFull);
+  const isHandFull = usePlayerCardStore((state) => state.isHandFull);
   const moveTo = useGameStore((state) => state.moveTo);
 
   return (

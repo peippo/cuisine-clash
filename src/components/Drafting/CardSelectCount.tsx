@@ -1,8 +1,8 @@
-import { useHandStore } from "@store/store";
+import { usePlayerCardStore } from "@store/store";
 import { MAX_HAND_CARDS } from "@utils/constants";
 
 const CardSelectCount = () => {
-  const selectedCount = useHandStore((state) => state.cards.length);
+  const selectedCount = usePlayerCardStore((state) => state.cards.length);
 
   return (
     <div className="flex items-center justify-center font-serif text-5xl text-slate-600">

@@ -20,3 +20,26 @@ export const getArrayOfRandomIds = (
 
   return randomIds;
 };
+
+export const getCardRotation = ({
+  index,
+  totalCards,
+  upsideDown = false,
+}: {
+  index: number;
+  totalCards: number;
+  upsideDown?: boolean;
+}) => {
+  const middle = totalCards % 1 ? totalCards / 2 : Math.ceil(totalCards / 2);
+  const distance = Math.abs(middle - index);
+
+  if (upsideDown) {
+    return index < middle
+      ? `${Math.abs(distance) * 4}deg`
+      : `${-Math.abs(distance) * 4}deg`;
+  } else {
+    return index < middle
+      ? `${-Math.abs(distance) * 4}deg`
+      : `${Math.abs(distance) * 4}deg`;
+  }
+};

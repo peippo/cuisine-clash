@@ -20,29 +20,9 @@ export const useGameStore = create<GameState>()((set) => ({
   moveTo: (view) => set(() => ({ view: view })),
 }));
 
-// Cards in hand
-
-interface HandState {
-  cards: Array<Dish>;
-  isHandFull: boolean;
-  add: (card: Dish) => void;
-  remove: (id: number) => void;
-  clear: () => void;
-}
-
-export const useHandStore = create<HandState>()((set) => ({
-  cards: [],
-  isHandFull: false,
-  add: (card) => {
-    set((state) => ({ cards: [...state.cards, card] }));
-    set((state) => ({ isHandFull: state.cards.length === MAX_HAND_CARDS }));
-  },
-  remove: (id) =>
-    set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
-  clear: () => set({ cards: [] }),
-}));
-
-// Drafting phase
+//////////////
+// Drafting //
+//////////////
 
 interface DraftingState {
   countToFetch: number;
@@ -63,10 +43,69 @@ export const useDraftingStore = create<DraftingState>()((set) => ({
     refetcher();
     set((state) => ({ redrawsLeft: state.redrawsLeft - 1 }));
     set(() => ({
-      countToFetch: MAX_DRAFT_CARDS - useHandStore.getState().cards.length,
+      countToFetch:
+        MAX_DRAFT_CARDS - usePlayerCardStore.getState().cards.length,
     }));
     set(() => ({
-      selectedCardIds: useHandStore.getState().cards.map((card) => card.id),
+      selectedCardIds: usePlayerCardStore
+        .getState()
+        .cards.map((card) => card.id),
     }));
   },
+}));
+
+///////////
+// Cards //
+///////////
+
+interface CardState {
+  cards: Array<Dish>;
+  arenaCard: Dish | null;
+  remove: (id: number) => void;
+  play: (card: Dish) => void;
+}
+
+interface PlayerCardExtrasState {
+  isHandFull: boolean;
+  add: (card: Dish) => void;
+}
+
+type PlayerCardState = CardState & PlayerCardExtrasState;
+
+export const usePlayerCardStore = create<PlayerCardState>()((set) => ({
+  cards: [],
+  arenaCard: null,
+  isHandFull: false,
+  add: (card) => {
+    set((state) => ({ cards: [...state.cards, card] }));
+    set((state) => ({ isHandFull: state.cards.length === MAX_HAND_CARDS }));
+  },
+  remove: (id) =>
+    set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
+  play: (selectedCard) => {
+    set(() => ({ arenaCard: selectedCard }));
+    set((state) => ({
+      cards: state.cards.filter((card) => card.id !== selectedCard.id),
+    }));
+  },
+}));
+
+interface EnemyCardExtrasState {
+  addCards: (cards: Array<Dish>) => void;
+}
+
+type EnemyCardState = CardState & EnemyCardExtrasState;
+
+export const useEnemyCardStore = create<EnemyCardState>()((set) => ({
+  cards: [],
+  arenaCard: null,
+  remove: (id) =>
+    set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
+  play: (selectedCard) => {
+    set(() => ({ arenaCard: selectedCard }));
+    set((state) => ({
+      cards: state.cards.filter((card) => card.id !== selectedCard.id),
+    }));
+  },
+  addCards: (cards) => set(() => ({ cards: cards })),
 }));

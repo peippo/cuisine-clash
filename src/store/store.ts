@@ -5,6 +5,8 @@ import {
   DRAFTING_REDRAWS,
 } from "@utils/constants";
 import create from "zustand";
+import { randomInt } from "@utils/general";
+import { Turn } from "@customTypes/types";
 
 // Game state
 
@@ -62,15 +64,13 @@ interface CardState {
   cards: Array<Dish>;
   arenaCard: Dish | null;
   remove: (id: number) => void;
-  play: (card: Dish) => void;
 }
 
-interface PlayerCardExtrasState {
+interface PlayerCardState extends CardState {
   isHandFull: boolean;
   add: (card: Dish) => void;
+  play: (card: Dish) => void;
 }
-
-type PlayerCardState = CardState & PlayerCardExtrasState;
 
 export const usePlayerCardStore = create<PlayerCardState>()((set) => ({
   cards: [],
@@ -90,22 +90,39 @@ export const usePlayerCardStore = create<PlayerCardState>()((set) => ({
   },
 }));
 
-interface EnemyCardExtrasState {
+interface EnemyCardState extends CardState {
   addCards: (cards: Array<Dish>) => void;
+  playRandom: () => void;
 }
 
-type EnemyCardState = CardState & EnemyCardExtrasState;
-
-export const useEnemyCardStore = create<EnemyCardState>()((set) => ({
+export const useEnemyCardStore = create<EnemyCardState>()((set, get) => ({
   cards: [],
   arenaCard: null,
   remove: (id) =>
     set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
-  play: (selectedCard) => {
+  playRandom: () => {
+    const selectedCard = get().cards[
+      randomInt(0, get().cards.length - 1)
+    ] as Dish;
+
     set(() => ({ arenaCard: selectedCard }));
     set((state) => ({
       cards: state.cards.filter((card) => card.id !== selectedCard.id),
     }));
   },
   addCards: (cards) => set(() => ({ cards: cards })),
+}));
+
+////////////
+// Battle //
+////////////
+
+interface BattleState {
+  turn: Turn | undefined;
+  updateTurn: (turn: Turn | undefined) => void;
+}
+
+export const useBattleStore = create<BattleState>()((set) => ({
+  turn: undefined,
+  updateTurn: (turn) => set(() => ({ turn: turn })),
 }));

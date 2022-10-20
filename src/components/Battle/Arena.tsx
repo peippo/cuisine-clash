@@ -25,7 +25,7 @@ const Arena = () => {
   }, [playerCard, enemyCard]);
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       {playerCard && (
         <Card card={playerCard} isDisabled={true} isRevealed={true} />
       )}

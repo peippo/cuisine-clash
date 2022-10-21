@@ -33,7 +33,12 @@ const Arena = () => {
       <StatusMessages />
 
       {enemyCard && (
-        <Card card={enemyCard} isDisabled={true} isRevealed={true} />
+        <Card
+          card={enemyCard}
+          isDisabled={true}
+          isRevealed={true}
+          isEnemy={true}
+        />
       )}
     </div>
   );

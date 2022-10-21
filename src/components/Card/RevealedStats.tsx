@@ -8,14 +8,29 @@ type Props = {
 };
 
 const RevealedStats = ({ energy, carb, protein }: Props) => {
+  const isDead = !energy;
+
   return (
-    <ul aria-label="Stats" className="mb-0 mt-auto">
-      <li className="my-2 flex text-orange-500">
+    <ul
+      aria-label="Stats"
+      className="mb-0 mt-auto transition-colors duration-1000"
+    >
+      <li
+        className={classNames(
+          "my-2 flex",
+          isDead ? "text-zinc-500" : "text-orange-500"
+        )}
+      >
         <HeartIcon width="24" className="mr-3 drop-shadow-md" />
         <span className="sr-only">Hitpoints:</span>
         <span className="text-lg">{energy}</span>
       </li>
-      <li className="my-2 flex text-lime-400">
+      <li
+        className={classNames(
+          "my-2 flex",
+          isDead ? "text-zinc-500" : "text-lime-400"
+        )}
+      >
         <SwordIcon width="24" className="mr-3 drop-shadow-md" />
         <span className="sr-only">Attack:</span>
         <div
@@ -24,13 +39,23 @@ const RevealedStats = ({ energy, carb, protein }: Props) => {
           )}
         >
           <div
-            className="absolute left-1 top-1 block h-3 rounded-md border-t border-t-lime-100 bg-lime-400 transition-all"
+            className={classNames(
+              "absolute left-1 top-1 block h-3 rounded-md border-t transition-all duration-1000",
+              isDead
+                ? "border-t-zinc-500 bg-zinc-600"
+                : "border-t-lime-100 bg-lime-400"
+            )}
             style={{ width: `${Math.min(carb, 95)}%` }}
           ></div>
           <span className="absolute right-2 text-sm">{carb}</span>
         </div>
       </li>
-      <li className="my-2 flex text-sky-400">
+      <li
+        className={classNames(
+          "my-2 flex",
+          isDead ? "text-zinc-500" : "text-sky-400"
+        )}
+      >
         <ShieldIcon width="24" className="mr-3 drop-shadow-md" />
         <span className="sr-only">Defence:</span>
         <div
@@ -39,7 +64,12 @@ const RevealedStats = ({ energy, carb, protein }: Props) => {
           )}
         >
           <div
-            className="absolute left-1 top-1 block h-3 rounded-md border-t border-t-sky-100 bg-sky-400 transition-all"
+            className={classNames(
+              "absolute left-1 top-1 block h-3 rounded-md border-t transition-all duration-1000",
+              isDead
+                ? "border-t-zinc-500 bg-zinc-600"
+                : "border-t-sky-100 bg-sky-400"
+            )}
             style={{ width: `${Math.min(protein, 95)}%` }}
           ></div>
           <span className="absolute right-2 text-sm">{protein}</span>

@@ -64,6 +64,7 @@ interface CardState {
   cards: Array<Dish>;
   arenaCard: Dish | null;
   remove: (id: number) => void;
+  updateArenaCard: (damage: number) => void;
 }
 
 interface PlayerCardState extends CardState {
@@ -83,9 +84,23 @@ export const usePlayerCardStore = create<PlayerCardState>()((set) => ({
   remove: (id) =>
     set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
   play: (selectedCard) => {
+    const updateArenaStatus = useBattleStore.getState().updateArenaStatus;
+    const isEnemyReady = useEnemyCardStore.getState().arenaCard;
+
     set(() => ({ arenaCard: selectedCard }));
     set((state) => ({
       cards: state.cards.filter((card) => card.id !== selectedCard.id),
+    }));
+    updateArenaStatus(isEnemyReady ? "combat" : "waitingForEnemy");
+  },
+  updateArenaCard: (damage) => {
+    set((state) => ({
+      arenaCard: state.arenaCard
+        ? {
+            ...state.arenaCard,
+            energy: Math.max(0, state.arenaCard.energy - damage),
+          }
+        : null,
     }));
   },
 }));
@@ -101,6 +116,9 @@ export const useEnemyCardStore = create<EnemyCardState>()((set, get) => ({
   remove: (id) =>
     set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
   playRandom: () => {
+    const updateArenaStatus = useBattleStore.getState().updateArenaStatus;
+    const isPlayerReady = usePlayerCardStore.getState().arenaCard;
+
     const selectedCard = get().cards[
       randomInt(0, get().cards.length - 1)
     ] as Dish;
@@ -109,20 +127,41 @@ export const useEnemyCardStore = create<EnemyCardState>()((set, get) => ({
     set((state) => ({
       cards: state.cards.filter((card) => card.id !== selectedCard.id),
     }));
+    updateArenaStatus(isPlayerReady ? "combat" : "waitingForPlayer");
   },
   addCards: (cards) => set(() => ({ cards: cards })),
+  updateArenaCard: (damage) => {
+    set((state) => ({
+      arenaCard: state.arenaCard
+        ? {
+            ...state.arenaCard,
+            energy: Math.max(0, state.arenaCard.energy - damage),
+          }
+        : null,
+    }));
+  },
 }));
 
 ////////////
 // Battle //
 ////////////
 
+type ArenaStatus =
+  | "waitingForPlayer"
+  | "combat"
+  | "waitingForEnemy"
+  | "finished";
+
 interface BattleState {
+  arenaStatus: ArenaStatus;
   turn: Turn | undefined;
   updateTurn: (turn: Turn | undefined) => void;
+  updateArenaStatus: (status: ArenaStatus) => void;
 }
 
 export const useBattleStore = create<BattleState>()((set) => ({
+  arenaStatus: "waitingForPlayer",
   turn: undefined,
   updateTurn: (turn) => set(() => ({ turn: turn })),
+  updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
 }));

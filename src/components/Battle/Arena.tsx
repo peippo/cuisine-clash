@@ -1,28 +1,35 @@
-import { usePlayerCardStore, useEnemyCardStore } from "@store/store";
+import {
+  usePlayerCardStore,
+  useEnemyCardStore,
+  useBattleStore,
+} from "@store/store";
 import { randomInt } from "@utils/general";
 
 import Card from "@components/Card/CardBase";
 import { useEffect } from "react";
 import StatusMessages from "./StatusMessages";
 import useBattleSolver from "@hooks/useBattleSolver";
+import useArenaCardUpdater from "@hooks/useArenaCardUpdater";
 
 const Arena = () => {
   const playerCard = usePlayerCardStore((state) => state.arenaCard);
   const enemyCard = useEnemyCardStore((state) => state.arenaCard);
   const playRandom = useEnemyCardStore((state) => state.playRandom);
+  const arenaStatus = useBattleStore((state) => state.arenaStatus);
 
   const { refetch } = useBattleSolver();
+  useArenaCardUpdater();
 
   useEffect(() => {
-    if (playerCard && !enemyCard) {
+    if (arenaStatus === "waitingForEnemy") {
       setTimeout(() => {
         playRandom();
       }, randomInt(750, 1500));
     }
-    if (playerCard && enemyCard) {
+    if (arenaStatus === "combat") {
       refetch();
     }
-  }, [playerCard, enemyCard]);
+  }, [arenaStatus]);
 
   return (
     <div className="flex w-full">

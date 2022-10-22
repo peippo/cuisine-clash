@@ -8,7 +8,7 @@ const RedrawButton = () => {
   const isPlayerHandFull = useStore((state) => state.isPlayerHandFull);
   const redrawsLeft = useStore((state) => state.redrawsLeft);
   const redraw = useStore((state) => state.redraw);
-  const { isLoading, refetch } = useDrawCards();
+  const { isLoading } = useDrawCards();
 
   const hasRedraws = redrawsLeft !== 0;
 
@@ -19,7 +19,7 @@ const RedrawButton = () => {
         "disabled:border-slate-600 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-400",
         "hover:border-indigo-700 hover:bg-gradient-to-b hover:from-indigo-900 hover:to-indigo-800"
       )}
-      onClick={() => redraw(refetch)}
+      onClick={() => redraw()}
       disabled={!hasRedraws || isPlayerHandFull || isLoading}
     >
       <span

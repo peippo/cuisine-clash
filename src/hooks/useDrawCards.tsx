@@ -6,7 +6,7 @@ const useDrawCards = ({ isEnemy = false } = {}) => {
   const countToFetch = useStore((state) => state.countToFetch);
   const selectedCardIds = useStore((state) => state.selectedCardIds);
 
-  const { data, isLoading, refetch } = trpc.deck.drawCards.useQuery(
+  const { data, isLoading } = trpc.deck.drawCards.useQuery(
     {
       count: isEnemy ? MAX_HAND_CARDS : countToFetch,
       excludeIds: selectedCardIds,
@@ -16,7 +16,7 @@ const useDrawCards = ({ isEnemy = false } = {}) => {
     }
   );
 
-  return { cards: data, isLoading, refetch };
+  return { cards: data, isLoading };
 };
 
 export default useDrawCards;

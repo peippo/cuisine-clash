@@ -26,7 +26,7 @@ type StoreState = {
 
 type StoreActions = {
   moveToView: (view: Views) => void;
-  redraw: (refetcher: () => void) => void;
+  redraw: () => void;
   setTableCards: (card: Array<Dish>) => void;
   addToPlayerHand: (card: Dish) => void;
   playCard: (card: Dish) => void;
@@ -65,8 +65,7 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
 
   // Drafting actions
-  redraw: (refetcher: () => void) => {
-    refetcher();
+  redraw: () => {
     set((state) => ({
       redrawsLeft: state.redrawsLeft - 1,
       countToFetch: MAX_DRAFT_CARDS - state.playerCards.length,

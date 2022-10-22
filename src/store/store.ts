@@ -36,6 +36,7 @@ type StoreActions = {
   updateEnemyArenaCard: (damage: number) => void;
   updateTurnData: (turnData: TurnData | undefined) => void;
   updateArenaStatus: (status: ArenaStatus) => void;
+  clearTurn: () => void;
 };
 
 export const useStore = create<StoreState & StoreActions>((set, get) => ({
@@ -63,6 +64,17 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   moveToView: (view) => set(() => ({ view: view })),
   updateTurnData: (turnData) => set(() => ({ turnData: turnData })),
   updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
+  clearTurn: () => {
+    set(() => ({
+      arenaStatus:
+        get().turnData?.winner === "player"
+          ? "WAITING_FOR_PLAYER"
+          : "WAITING_FOR_ENEMY",
+      turnData: undefined,
+      playerArenaCard: null, // TODO: return winners card to hand
+      enemyArenaCard: null, // TODO: return winners card to hand
+    }));
+  },
 
   // Drafting actions
   redraw: () => {

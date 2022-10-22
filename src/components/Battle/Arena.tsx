@@ -5,7 +5,9 @@ import useBattleSolver from "@hooks/useBattleSolver";
 import useArenaCardUpdater from "@hooks/useArenaCardUpdater";
 
 import Card from "@components/Card/CardBase";
+import TurnMessages from "./TurnMessages";
 import StatusMessages from "./StatusMessages";
+import CardArea from "./CardArea";
 
 const Arena = () => {
   const playerCard = useStore((state) => state.playerArenaCard);
@@ -16,11 +18,14 @@ const Arena = () => {
   const { refetch } = useBattleSolver();
   useArenaCardUpdater();
 
+  const isWaitingCard =
+    arenaStatus === "WAITING_FOR_PLAYER" || arenaStatus === "WAITING_FOR_ENEMY";
+
   useEffect(() => {
     if (arenaStatus === "WAITING_FOR_ENEMY") {
       setTimeout(() => {
         playRandomEnemyCard();
-      }, randomInt(750, 1500));
+      }, randomInt(1000, 2000));
     }
     if (arenaStatus === "BATTLE_ONGOING") {
       refetch();
@@ -29,20 +34,25 @@ const Arena = () => {
 
   return (
     <div className="flex w-full">
-      {playerCard && (
-        <Card card={playerCard} isDisabled={true} isRevealed={true} />
-      )}
+      <CardArea actor="player">
+        {playerCard && (
+          <Card card={playerCard} isDisabled={true} isRevealed={true} />
+        )}
+      </CardArea>
 
-      <StatusMessages />
+      {isWaitingCard && <StatusMessages />}
+      {arenaStatus === "BATTLE_ONGOING" && <TurnMessages />}
 
-      {enemyCard && (
-        <Card
-          card={enemyCard}
-          isDisabled={true}
-          isRevealed={true}
-          isEnemy={true}
-        />
-      )}
+      <CardArea actor="enemy">
+        {enemyCard && (
+          <Card
+            card={enemyCard}
+            isDisabled={true}
+            isRevealed={true}
+            isEnemy={true}
+          />
+        )}
+      </CardArea>
     </div>
   );
 };

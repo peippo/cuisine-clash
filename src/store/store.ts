@@ -1,167 +1,133 @@
+import create from "zustand";
 import { Dish } from "@prisma/client";
+import { Views, ArenaStatus, TurnData } from "@customTypes/types";
+
 import {
   MAX_DRAFT_CARDS,
   MAX_HAND_CARDS,
   DRAFTING_REDRAWS,
 } from "@utils/constants";
-import create from "zustand";
 import { randomInt } from "@utils/general";
-import { Turn } from "@customTypes/types";
 
-// Game state
-
-type views = "TITLE" | "DRAFTING" | "BATTLE";
-
-interface GameState {
-  view: views;
-  moveTo: (view: views) => void;
-}
-
-export const useGameStore = create<GameState>()((set) => ({
-  view: "TITLE",
-  moveTo: (view) => set(() => ({ view: view })),
-}));
-
-//////////////
-// Drafting //
-//////////////
-
-interface DraftingState {
+type StoreState = {
+  view: Views;
   countToFetch: number;
+  redrawsLeft: number;
   selectedCardIds: Array<number>;
   tableCards: Array<Dish>;
-  redrawsLeft: number;
-  setTableCards: (card: Array<Dish>) => void;
-  redraw: (refetcher: () => void) => void;
-}
+  playerCards: Array<Dish>;
+  enemyCards: Array<Dish>;
+  isPlayerHandFull: boolean;
+  playerArenaCard: Dish | null;
+  enemyArenaCard: Dish | null;
+  arenaStatus: ArenaStatus;
+  turnData: TurnData | undefined;
+};
 
-export const useDraftingStore = create<DraftingState>()((set) => ({
+type StoreActions = {
+  moveToView: (view: Views) => void;
+  redraw: (refetcher: () => void) => void;
+  setTableCards: (card: Array<Dish>) => void;
+  addToPlayerHand: (card: Dish) => void;
+  playCard: (card: Dish) => void;
+  addCardsToEnemy: (cards: Array<Dish>) => void;
+  playRandomEnemyCard: () => void;
+  updatePlayerArenaCard: (damage: number) => void;
+  updateEnemyArenaCard: (damage: number) => void;
+  updateTurnData: (turnData: TurnData | undefined) => void;
+  updateArenaStatus: (status: ArenaStatus) => void;
+};
+
+export const useStore = create<StoreState & StoreActions>((set, get) => ({
+  // Game state
+  view: "TITLE",
+
+  // Drafting state
   countToFetch: MAX_DRAFT_CARDS,
   redrawsLeft: DRAFTING_REDRAWS,
   selectedCardIds: [],
   tableCards: [],
-  setTableCards: (cards) => set(() => ({ tableCards: cards })),
+
+  // Cards state
+  playerCards: [],
+  playerArenaCard: null,
+  isPlayerHandFull: false,
+  enemyCards: [],
+  enemyArenaCard: null,
+
+  // Arena state
+  arenaStatus: "WAITING_FOR_PLAYER",
+  turnData: undefined,
+
+  // Game actions
+  moveToView: (view) => set(() => ({ view: view })),
+  updateTurnData: (turnData) => set(() => ({ turnData: turnData })),
+  updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
+
+  // Drafting actions
   redraw: (refetcher: () => void) => {
     refetcher();
-    set((state) => ({ redrawsLeft: state.redrawsLeft - 1 }));
-    set(() => ({
-      countToFetch:
-        MAX_DRAFT_CARDS - usePlayerCardStore.getState().cards.length,
-    }));
-    set(() => ({
-      selectedCardIds: usePlayerCardStore
-        .getState()
-        .cards.map((card) => card.id),
-    }));
-  },
-}));
-
-///////////
-// Cards //
-///////////
-
-interface CardState {
-  cards: Array<Dish>;
-  arenaCard: Dish | null;
-  remove: (id: number) => void;
-  updateArenaCard: (damage: number) => void;
-}
-
-interface PlayerCardState extends CardState {
-  isHandFull: boolean;
-  add: (card: Dish) => void;
-  play: (card: Dish) => void;
-}
-
-export const usePlayerCardStore = create<PlayerCardState>()((set) => ({
-  cards: [],
-  arenaCard: null,
-  isHandFull: false,
-  add: (card) => {
-    set((state) => ({ cards: [...state.cards, card] }));
-    set((state) => ({ isHandFull: state.cards.length === MAX_HAND_CARDS }));
-  },
-  remove: (id) =>
-    set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
-  play: (selectedCard) => {
-    const updateArenaStatus = useBattleStore.getState().updateArenaStatus;
-    const isEnemyReady = useEnemyCardStore.getState().arenaCard;
-
-    set(() => ({ arenaCard: selectedCard }));
     set((state) => ({
-      cards: state.cards.filter((card) => card.id !== selectedCard.id),
+      redrawsLeft: state.redrawsLeft - 1,
+      countToFetch: MAX_DRAFT_CARDS - state.playerCards.length,
+      selectedCardIds: state.playerCards.map((card) => card.id),
     }));
-    updateArenaStatus(isEnemyReady ? "combat" : "waitingForEnemy");
   },
-  updateArenaCard: (damage) => {
+  setTableCards: (cards) => set(() => ({ tableCards: cards })),
+
+  // Player cards actions
+  addToPlayerHand: (card) => {
     set((state) => ({
-      arenaCard: state.arenaCard
+      playerCards: [...state.playerCards, card],
+    }));
+    set((state) => ({
+      isPlayerHandFull: state.playerCards.length === MAX_HAND_CARDS,
+    }));
+  },
+  playCard: (selectedCard) => {
+    set((state) => ({
+      playerArenaCard: selectedCard,
+      playerCards: state.playerCards.filter(
+        (card) => card.id !== selectedCard.id
+      ),
+      arenaStatus: state.enemyArenaCard
+        ? "BATTLE_ONGOING"
+        : "WAITING_FOR_ENEMY",
+    }));
+  },
+  updatePlayerArenaCard: (damage) => {
+    set((state) => ({
+      playerArenaCard: state.playerArenaCard
         ? {
-            ...state.arenaCard,
-            energy: Math.max(0, state.arenaCard.energy - damage),
+            ...state.playerArenaCard,
+            energy: Math.max(0, state.playerArenaCard.energy - damage),
           }
         : null,
     }));
   },
-}));
 
-interface EnemyCardState extends CardState {
-  addCards: (cards: Array<Dish>) => void;
-  playRandom: () => void;
-}
+  // Enemy cards actions
+  playRandomEnemyCard: () => {
+    const max = get().enemyCards.length - 1;
+    const randomCard = get().enemyCards[randomInt(0, max)] as Dish;
 
-export const useEnemyCardStore = create<EnemyCardState>()((set, get) => ({
-  cards: [],
-  arenaCard: null,
-  remove: (id) =>
-    set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
-  playRandom: () => {
-    const updateArenaStatus = useBattleStore.getState().updateArenaStatus;
-    const isPlayerReady = usePlayerCardStore.getState().arenaCard;
-
-    const selectedCard = get().cards[
-      randomInt(0, get().cards.length - 1)
-    ] as Dish;
-
-    set(() => ({ arenaCard: selectedCard }));
     set((state) => ({
-      cards: state.cards.filter((card) => card.id !== selectedCard.id),
+      enemyArenaCard: randomCard,
+      enemyCards: state.enemyCards.filter((card) => card.id !== randomCard.id),
+      arenaStatus: state.playerArenaCard
+        ? "BATTLE_ONGOING"
+        : "WAITING_FOR_PLAYER",
     }));
-    updateArenaStatus(isPlayerReady ? "combat" : "waitingForPlayer");
   },
-  addCards: (cards) => set(() => ({ cards: cards })),
-  updateArenaCard: (damage) => {
+  addCardsToEnemy: (cards) => set(() => ({ enemyCards: cards })),
+  updateEnemyArenaCard: (damage) => {
     set((state) => ({
-      arenaCard: state.arenaCard
+      enemyArenaCard: state.enemyArenaCard
         ? {
-            ...state.arenaCard,
-            energy: Math.max(0, state.arenaCard.energy - damage),
+            ...state.enemyArenaCard,
+            energy: Math.max(0, state.enemyArenaCard.energy - damage),
           }
         : null,
     }));
   },
-}));
-
-////////////
-// Battle //
-////////////
-
-type ArenaStatus =
-  | "waitingForPlayer"
-  | "combat"
-  | "waitingForEnemy"
-  | "finished";
-
-interface BattleState {
-  arenaStatus: ArenaStatus;
-  turn: Turn | undefined;
-  updateTurn: (turn: Turn | undefined) => void;
-  updateArenaStatus: (status: ArenaStatus) => void;
-}
-
-export const useBattleStore = create<BattleState>()((set) => ({
-  arenaStatus: "waitingForPlayer",
-  turn: undefined,
-  updateTurn: (turn) => set(() => ({ turn: turn })),
-  updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
 }));

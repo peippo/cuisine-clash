@@ -1,22 +1,18 @@
 import { useEffect } from "react";
-import {
-  usePlayerCardStore,
-  useEnemyCardStore,
-  useBattleStore,
-} from "@store/store";
+import { useStore } from "@store/store";
 
 const useArenaCardUpdater = () => {
-  const turn = useBattleStore((state) => state.turn);
-  const updatePlayerCard = usePlayerCardStore((state) => state.updateArenaCard);
-  const updateEnemyCard = useEnemyCardStore((state) => state.updateArenaCard);
+  const turnData = useStore((state) => state.turnData);
+  const updatePlayerCard = useStore((state) => state.updatePlayerArenaCard);
+  const updateEnemyCard = useStore((state) => state.updateEnemyArenaCard);
 
   useEffect(() => {
-    if (turn?.actor === "player") {
-      updateEnemyCard(turn.damage ?? 0);
-    } else if (turn?.actor === "enemy") {
-      updatePlayerCard(turn.damage ?? 0);
+    if (turnData?.actor === "player") {
+      updateEnemyCard(turnData.damage ?? 0);
+    } else if (turnData?.actor === "enemy") {
+      updatePlayerCard(turnData.damage ?? 0);
     }
-  }, [turn]);
+  }, [turnData]);
 };
 
 export default useArenaCardUpdater;

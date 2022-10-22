@@ -1,20 +1,16 @@
 import { useEffect } from "react";
 import { trpc } from "@utils/trpc";
-import {
-  usePlayerCardStore,
-  useEnemyCardStore,
-  useBattleStore,
-} from "@store/store";
+import { useStore } from "@store/store";
 
 const useBattleSolver = () => {
-  const playerCard = usePlayerCardStore((state) => state.arenaCard);
-  const enemyCard = useEnemyCardStore((state) => state.arenaCard);
-  const updateTurn = useBattleStore((state) => state.updateTurn);
+  const playerArenaCard = useStore((state) => state.playerArenaCard);
+  const enemyArenaCard = useStore((state) => state.enemyArenaCard);
+  const updateTurnData = useStore((state) => state.updateTurnData);
 
   const { data: turns, refetch } = trpc.battle.solve.useQuery(
     {
-      playerId: playerCard?.id as number,
-      enemyId: enemyCard?.id as number,
+      playerId: playerArenaCard?.id as number,
+      enemyId: enemyArenaCard?.id as number,
     },
     {
       enabled: false,
@@ -24,7 +20,7 @@ const useBattleSolver = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (turns && turns[0]) {
-        updateTurn(turns?.shift());
+        updateTurnData(turns?.shift());
       }
     }, 500);
 

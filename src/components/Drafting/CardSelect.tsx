@@ -1,20 +1,20 @@
 import { useEffect } from "react";
-import { usePlayerCardStore, useDraftingStore } from "@store/store";
+import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
 
 import Card from "@components/Card/CardBase";
 
 const CardSelect = () => {
   const { cards } = useDrawCards();
-  const handCards = usePlayerCardStore((state) => state.cards);
-  const addToHand = usePlayerCardStore((state) => state.add);
-  const tableCards = useDraftingStore((state) => state.tableCards);
-  const setTableCards = useDraftingStore((state) => state.setTableCards);
+  const playerCards = useStore((state) => state.playerCards);
+  const addToPlayerHand = useStore((state) => state.addToPlayerHand);
+  const tableCards = useStore((state) => state.tableCards);
+  const setTableCards = useStore((state) => state.setTableCards);
 
   // Combine selected hand cards & newly fetched cards
   useEffect(() => {
     if (cards) {
-      const combinedCards = [...handCards, ...cards];
+      const combinedCards = [...playerCards, ...cards];
       setTableCards(combinedCards);
     }
   }, [cards]);
@@ -27,9 +27,9 @@ const CardSelect = () => {
             <Card
               key={card.id}
               card={card}
-              onClickHandler={() => addToHand(card)}
-              isRevealed={handCards.includes(card)}
-              isDisabled={handCards.includes(card)}
+              onClickHandler={() => addToPlayerHand(card)}
+              isRevealed={playerCards.includes(card)}
+              isDisabled={playerCards.includes(card)}
             />
           ))
         ) : (

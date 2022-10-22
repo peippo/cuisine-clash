@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
-import { useBattleStore } from "@store/store";
-import type { Turn } from "@customTypes/types";
+import { useStore } from "@store/store";
 import classNames from "classnames";
+import type { TurnData } from "@customTypes/types";
 
 const StatusMessages = () => {
-  const turn = useBattleStore((state) => state.turn);
+  const currentTurnData = useStore((state) => state.turnData);
 
-  const [turnHistory, setTurnHistory] = useState<Turn[]>([]);
+  const [turnHistory, setTurnHistory] = useState<TurnData[]>([]);
 
   useEffect(() => {
-    const turns = turnHistory ? [...turnHistory, turn as Turn] : [turn as Turn];
+    const turns = turnHistory
+      ? [...turnHistory, currentTurnData as TurnData]
+      : [currentTurnData as TurnData];
 
     if (turns.length >= 10) {
       turns.shift();
     }
 
     setTurnHistory(turns);
-  }, [turn]);
+  }, [currentTurnData]);
 
   return (
     <div

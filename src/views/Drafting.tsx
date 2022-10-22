@@ -1,14 +1,13 @@
 import Head from "next/head";
-import { usePlayerCardStore } from "@store/store";
 import CardSelect from "@components/Drafting/CardSelect";
 import CardSelectCount from "@components/Drafting/CardSelectCount";
 import RedrawButton from "@components/Drafting/RedrawButton";
 import Button from "@components/Button";
-import { useGameStore } from "@store/store";
+import { useStore } from "@store/store";
 
 const Drafting = () => {
-  const isHandFull = usePlayerCardStore((state) => state.isHandFull);
-  const moveTo = useGameStore((state) => state.moveTo);
+  const isHandFull = useStore((state) => state.isPlayerHandFull);
+  const moveToView = useStore((state) => state.moveToView);
 
   return (
     <>
@@ -25,7 +24,9 @@ const Drafting = () => {
           <CardSelect />
 
           {isHandFull && (
-            <Button onClickHandler={() => moveTo("BATTLE")}>Go battle!</Button>
+            <Button onClickHandler={() => moveToView("BATTLE")}>
+              Go battle!
+            </Button>
           )}
         </section>
       </main>

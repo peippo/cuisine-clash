@@ -1,15 +1,15 @@
-import { usePlayerCardStore } from "@store/store";
+import { useStore } from "@store/store";
 import classNames from "classnames";
 import { getCardRotation } from "@utils/general";
 
 import Card from "@components/Card/CardBase";
 
 const HandCards = () => {
-  const cards = usePlayerCardStore((state) => state.cards);
-  const arenaCard = usePlayerCardStore((state) => state.arenaCard);
-  const play = usePlayerCardStore((state) => state.play);
+  const playerCards = useStore((state) => state.playerCards);
+  const playerArenaCard = useStore((state) => state.playerArenaCard);
+  const playCard = useStore((state) => state.playCard);
 
-  const hasCardInArena = Boolean(arenaCard);
+  const hasCardInArena = Boolean(playerArenaCard);
 
   return (
     <>
@@ -20,7 +20,7 @@ const HandCards = () => {
         )}
       >
         <div className="grid grid-cols-5">
-          {cards.map((card, index) => (
+          {playerCards.map((card, index) => (
             <div
               key={card.id}
               className={
@@ -29,13 +29,13 @@ const HandCards = () => {
               style={{
                 rotate: getCardRotation({
                   index: index + 1,
-                  totalCards: cards.length,
+                  totalCards: playerCards.length,
                 }),
               }}
             >
               <Card
                 card={card}
-                onClickHandler={() => play(card)}
+                onClickHandler={() => playCard(card)}
                 isRevealed={true}
                 isDisabled={hasCardInArena}
               />

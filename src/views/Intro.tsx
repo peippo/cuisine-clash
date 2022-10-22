@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { useGameStore } from "@store/store";
+import { useStore } from "@store/store";
 import Button from "@components/Button";
 
 const Intro = () => {
-  const moveTo = useGameStore((state) => state.moveTo);
+  const moveToView = useStore((state) => state.moveToView);
 
   return (
     <>
@@ -12,7 +12,9 @@ const Intro = () => {
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <h1 className="text-4xl">Cuisine Clash</h1>
-        <Button onClickHandler={() => moveTo("DRAFTING")}>Start Game</Button>
+        <Button onClickHandler={() => moveToView("DRAFTING")}>
+          Start Game
+        </Button>
       </main>
     </>
   );

@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { MAX_DRAFT_CARDS } from "@utils/constants";
-import { usePlayerCardStore, useDraftingStore } from "@store/store";
+import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
 
 const RedrawButton = () => {
-  const handCards = usePlayerCardStore((state) => state.cards);
-  const isHandFull = usePlayerCardStore((state) => state.isHandFull);
-  const redrawsLeft = useDraftingStore((state) => state.redrawsLeft);
-  const redraw = useDraftingStore((state) => state.redraw);
+  const playerCards = useStore((state) => state.playerCards);
+  const isPlayerHandFull = useStore((state) => state.isPlayerHandFull);
+  const redrawsLeft = useStore((state) => state.redrawsLeft);
+  const redraw = useStore((state) => state.redraw);
   const { isLoading, refetch } = useDrawCards();
 
   const hasRedraws = redrawsLeft !== 0;
@@ -20,7 +20,7 @@ const RedrawButton = () => {
         "hover:border-indigo-700 hover:bg-gradient-to-b hover:from-indigo-900 hover:to-indigo-800"
       )}
       onClick={() => redraw(refetch)}
-      disabled={!hasRedraws || isHandFull || isLoading}
+      disabled={!hasRedraws || isPlayerHandFull || isLoading}
     >
       <span
         className={classNames(
@@ -33,7 +33,7 @@ const RedrawButton = () => {
       <span className="sr-only">redraws available</span>
       <span className="flex py-2 pr-16 pl-5 text-lg">
         {hasRedraws
-          ? `Redraw ${MAX_DRAFT_CARDS - handCards.length} cards`
+          ? `Redraw ${MAX_DRAFT_CARDS - playerCards.length} cards`
           : "No redraws left"}
       </span>
     </button>

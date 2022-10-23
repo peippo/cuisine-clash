@@ -26,7 +26,7 @@ const StatusMessages = () => {
             viewBox="0 0 320 512"
             width="30"
             height="48"
-            className="animate-pulse text-slate-700"
+            className="text-slate-700 motion-safe:animate-pulse"
           >
             <path
               fill="currentColor"
@@ -42,7 +42,7 @@ const StatusMessages = () => {
             viewBox="0 0 320 512"
             width="30"
             height="48"
-            className="animate-pulse text-slate-700"
+            className="text-slate-700 motion-safe:animate-pulse"
           >
             <path
               fill="currentColor"

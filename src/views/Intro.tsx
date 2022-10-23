@@ -17,10 +17,10 @@ const Intro = () => {
           width="800"
           height="369"
           alt=""
-          className="animate-intro-logo"
+          className="motion-safe:animate-intro-logo"
         />
         <h1 className="sr-only">Cuisine Clash</h1>
-        <div className="flex animate-intro-content flex-col">
+        <div className="flex flex-col motion-safe:animate-intro-content">
           <p className="mb-5 text-2xl text-indigo-400">
             A food fighting card game
           </p>

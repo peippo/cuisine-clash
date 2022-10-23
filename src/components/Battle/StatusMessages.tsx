@@ -15,7 +15,7 @@ const StatusMessages = () => {
   };
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
+    <div className="mt-5 flex w-full flex-col items-center justify-center lg:mt-0">
       {arenaStatus === "WAITING_FOR_PLAYER" && (
         <>
           <p className="font-serif text-4xl text-slate-500">

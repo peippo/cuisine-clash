@@ -33,15 +33,17 @@ const Arena = () => {
   }, [arenaStatus]);
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full flex-wrap items-center justify-center gap-6 lg:flex-nowrap">
       <CardArea actor="player">
         {playerCard && (
           <Card card={playerCard} isDisabled={true} isRevealed={true} />
         )}
       </CardArea>
 
-      {arenaStatus !== "BATTLE_ONGOING" && <StatusMessages />}
-      {arenaStatus === "BATTLE_ONGOING" && <TurnMessages />}
+      <div className="order-3 basis-full lg:order-2">
+        {arenaStatus !== "BATTLE_ONGOING" && <StatusMessages />}
+        {arenaStatus === "BATTLE_ONGOING" && <TurnMessages />}
+      </div>
 
       <CardArea actor="enemy">
         {enemyCard && (

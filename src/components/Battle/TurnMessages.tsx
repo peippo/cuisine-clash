@@ -7,8 +7,6 @@ const TurnMessages = () => {
   const currentTurnData = useStore((state) => state.turnData);
   const clearTurn = useStore((state) => state.clearTurn);
 
-  console.log(currentTurnData);
-
   const [turnHistory, setTurnHistory] = useState<TurnData[]>([]);
 
   useEffect(() => {
@@ -28,7 +26,7 @@ const TurnMessages = () => {
   return (
     <div
       className={classNames(
-        "relative m-4 flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg bg-gray-900",
+        "relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg bg-gray-900",
         "after:absolute after:top-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-b after:from-gray-900"
       )}
     >

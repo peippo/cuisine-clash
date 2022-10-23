@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
+import { MAX_HAND_CARDS } from "@utils/constants";
 
 import Card from "@components/Card/CardBase";
 
 const CardSelect = () => {
   const { cards } = useDrawCards();
   const playerCards = useStore((state) => state.playerCards);
-  const addToPlayerHand = useStore((state) => state.addToPlayerHand);
   const tableCards = useStore((state) => state.tableCards);
+  const addToPlayerHand = useStore((state) => state.addToPlayerHand);
   const setTableCards = useStore((state) => state.setTableCards);
 
   // Combine selected hand cards & newly fetched cards
@@ -29,7 +30,10 @@ const CardSelect = () => {
               card={card}
               onClickHandler={() => addToPlayerHand(card)}
               isRevealed={playerCards.includes(card)}
-              isDisabled={playerCards.includes(card)}
+              isDisabled={
+                playerCards.includes(card) ||
+                playerCards.length === MAX_HAND_CARDS
+              }
             />
           ))
         ) : (

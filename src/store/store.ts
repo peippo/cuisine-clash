@@ -1,6 +1,6 @@
 import create from "zustand";
 import { Dish } from "@prisma/client";
-import { Views, ArenaStatus, TurnData } from "@customTypes/types";
+import { Views, ArenaStatus, TurnData, Battlers } from "@customTypes/types";
 
 import {
   MAX_DRAFT_CARDS,
@@ -22,13 +22,19 @@ type StoreState = {
   enemyArenaCard: Dish | null;
   arenaStatus: ArenaStatus;
   turnData: TurnData | undefined;
+  roundWinner: Battlers | undefined;
+  startingSide: Battlers | undefined;
 };
 
 type StoreActions = {
   moveToView: (view: Views) => void;
+  resetGame: () => void;
+  resetDrafting: () => void;
+  setStartingSide: (battler: Battlers) => void;
   redraw: () => void;
   setTableCards: (card: Array<Dish>) => void;
   addToPlayerHand: (card: Dish) => void;
+  clearPlayerHand: () => void;
   playCard: (card: Dish) => void;
   addCardsToEnemy: (cards: Array<Dish>) => void;
   playRandomEnemyCard: () => void;
@@ -44,6 +50,8 @@ type StoreActions = {
 export const useStore = create<StoreState & StoreActions>((set, get) => ({
   // Game state
   view: "TITLE",
+  startingSide: undefined,
+  roundWinner: undefined,
 
   // Drafting state
   countToFetch: MAX_DRAFT_CARDS,
@@ -59,11 +67,26 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   enemyArenaCard: null,
 
   // Arena state
-  arenaStatus: "WAITING_FOR_PLAYER",
+  arenaStatus: "IDLE",
   turnData: undefined,
 
   // Game actions
   moveToView: (view) => set(() => ({ view: view })),
+  resetGame: () =>
+    set(() => ({
+      isPlayerHandFull: false,
+      startingSide: undefined,
+      playerCards: [],
+      enemyCards: [],
+      tableCards: [],
+    })),
+  resetDrafting: () =>
+    set(() => ({
+      countToFetch: MAX_DRAFT_CARDS,
+      redrawsLeft: DRAFTING_REDRAWS,
+      selectedCardIds: [],
+    })),
+  setStartingSide: (battler) => set(() => ({ startingSide: battler })),
   updateTurnData: (turnData) => set(() => ({ turnData: turnData })),
   updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
   clearTurn: () => {
@@ -75,13 +98,29 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
       get().returnEnemyArenaCard();
     }
 
+    const isRoundFinished =
+      get().playerCards.length === 0 || get().enemyCards.length === 0;
+
+    if (get().playerCards.length === 0) {
+      set(() => ({ roundWinner: "enemy", arenaStatus: "BATTLE_FINISHED" }));
+    } else if (get().enemyCards.length === 0) {
+      set(() => ({ roundWinner: "player", arenaStatus: "BATTLE_FINISHED" }));
+    } else {
+      set(() => ({
+        arenaStatus:
+          turnWinner === "player" ? "WAITING_FOR_PLAYER" : "WAITING_FOR_ENEMY",
+      }));
+    }
+
     set(() => ({
-      arenaStatus:
-        turnWinner === "player" ? "WAITING_FOR_PLAYER" : "WAITING_FOR_ENEMY",
       turnData: undefined,
       playerArenaCard: null,
       enemyArenaCard: null,
     }));
+
+    if (isRoundFinished) {
+      get().resetGame();
+    }
   },
 
   // Drafting actions
@@ -103,6 +142,7 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
       isPlayerHandFull: state.playerCards.length === MAX_HAND_CARDS,
     }));
   },
+  clearPlayerHand: () => set(() => ({ playerCards: [] })),
   playCard: (selectedCard) => {
     set((state) => ({
       playerArenaCard: selectedCard,

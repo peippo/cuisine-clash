@@ -1,6 +1,7 @@
 export type Views = "TITLE" | "DRAFTING" | "BATTLE";
 
 export type ArenaStatus =
+  | "IDLE"
   | "WAITING_FOR_PLAYER"
   | "BATTLE_ONGOING"
   | "WAITING_FOR_ENEMY"

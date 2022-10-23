@@ -31,17 +31,16 @@ export const battleRouter = t.router({
           salt: z.number().nullable(),
           vitaminc: z.number().nullable(),
         }),
+        startingSide: z.enum(["player", "enemy"]),
       })
     )
     .query(({ input }) => {
-      let isEnemyStarting = false; // TODO: get from input
-
       let round = 1;
       let stats = null;
       const battlers = ["player", "enemy"] as Battlers[];
       const rounds = [];
 
-      if (isEnemyStarting) {
+      if (input.startingSide === "enemy") {
         battlers.reverse();
       }
 

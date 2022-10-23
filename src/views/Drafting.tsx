@@ -1,9 +1,10 @@
+import { useStore } from "@store/store";
 import Head from "next/head";
+
 import CardSelect from "@components/Drafting/CardSelect";
 import CardSelectCount from "@components/Drafting/CardSelectCount";
 import RedrawButton from "@components/Drafting/RedrawButton";
 import Button from "@components/Button";
-import { useStore } from "@store/store";
 
 const Drafting = () => {
   const isHandFull = useStore((state) => state.isPlayerHandFull);

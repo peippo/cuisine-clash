@@ -8,6 +8,7 @@ export const deckRouter = t.router({
       z.object({
         count: z.number(),
         excludeIds: z.array(z.number()).optional(),
+        redrawsLeft: z.number(),
       })
     )
     .query(({ ctx, input }) => {

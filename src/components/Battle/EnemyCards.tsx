@@ -9,7 +9,7 @@ const EnemyCards = () => {
   return (
     <>
       <div className="bottom fixed -top-40 transition-all lg:left-1/2 lg:-translate-x-1/2">
-        <div className="grid grid-cols-5">
+        <div className={`grid grid-cols-${enemyCards.length}`}>
           {enemyCards.map((card, index) => (
             <div
               key={card.id}

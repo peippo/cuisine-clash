@@ -34,6 +34,8 @@ type StoreActions = {
   playRandomEnemyCard: () => void;
   updatePlayerArenaCard: (damage: number) => void;
   updateEnemyArenaCard: (damage: number) => void;
+  returnPlayerArenaCard: () => void;
+  returnEnemyArenaCard: () => void;
   updateTurnData: (turnData: TurnData | undefined) => void;
   updateArenaStatus: (status: ArenaStatus) => void;
   clearTurn: () => void;
@@ -65,14 +67,20 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   updateTurnData: (turnData) => set(() => ({ turnData: turnData })),
   updateArenaStatus: (status) => set(() => ({ arenaStatus: status })),
   clearTurn: () => {
+    const turnWinner = get().turnData?.winner;
+
+    if (turnWinner === "player") {
+      get().returnPlayerArenaCard();
+    } else {
+      get().returnEnemyArenaCard();
+    }
+
     set(() => ({
       arenaStatus:
-        get().turnData?.winner === "player"
-          ? "WAITING_FOR_PLAYER"
-          : "WAITING_FOR_ENEMY",
+        turnWinner === "player" ? "WAITING_FOR_PLAYER" : "WAITING_FOR_ENEMY",
       turnData: undefined,
-      playerArenaCard: null, // TODO: return winners card to hand
-      enemyArenaCard: null, // TODO: return winners card to hand
+      playerArenaCard: null,
+      enemyArenaCard: null,
     }));
   },
 
@@ -106,6 +114,10 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
         : "WAITING_FOR_ENEMY",
     }));
   },
+  returnPlayerArenaCard: () =>
+    set((state) => ({
+      playerCards: [...state.playerCards, state.playerArenaCard as Dish],
+    })),
   updatePlayerArenaCard: (damage) => {
     set((state) => ({
       playerArenaCard: state.playerArenaCard
@@ -131,6 +143,10 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
     }));
   },
   addCardsToEnemy: (cards) => set(() => ({ enemyCards: cards })),
+  returnEnemyArenaCard: () =>
+    set((state) => ({
+      enemyCards: [...state.enemyCards, state.enemyArenaCard as Dish],
+    })),
   updateEnemyArenaCard: (damage) => {
     set((state) => ({
       enemyArenaCard: state.enemyArenaCard

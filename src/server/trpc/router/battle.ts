@@ -7,24 +7,33 @@ export const battleRouter = t.router({
   solve: t.procedure
     .input(
       z.object({
-        playerId: z.number({ required_error: "Player ID required" }),
-        enemyId: z.number({ required_error: "Enemy ID required" }),
+        playerCard: z.object({
+          id: z.number(),
+          name: z.string(),
+          energy: z.number(),
+          fat: z.number(),
+          carb: z.number(),
+          protein: z.number(),
+          alcohol: z.number().nullable(),
+          iron: z.number().nullable(),
+          salt: z.number().nullable(),
+          vitaminc: z.number().nullable(),
+        }),
+        enemyCard: z.object({
+          id: z.number(),
+          name: z.string(),
+          energy: z.number(),
+          fat: z.number(),
+          carb: z.number(),
+          protein: z.number(),
+          alcohol: z.number().nullable(),
+          iron: z.number().nullable(),
+          salt: z.number().nullable(),
+          vitaminc: z.number().nullable(),
+        }),
       })
     )
-    .query(async ({ ctx, input }) => {
-      const cards = await ctx.prisma.dish.findMany({
-        where: {
-          id: {
-            in: [input.playerId, input.enemyId],
-          },
-        },
-      });
-
-      const playerCard = cards.find((card) => card.id === input.playerId);
-      const enemyCard = cards.find((card) => card.id === input.enemyId);
-
-      if (!playerCard || !enemyCard) return;
-
+    .query(({ input }) => {
       let isEnemyStarting = false; // TODO: get from input
 
       let round = 1;
@@ -52,10 +61,10 @@ export const battleRouter = t.router({
 
       stats = {
         player: {
-          ...getStats(playerCard),
+          ...getStats(input.playerCard),
         },
         enemy: {
-          ...getStats(enemyCard),
+          ...getStats(input.enemyCard),
         },
       };
 

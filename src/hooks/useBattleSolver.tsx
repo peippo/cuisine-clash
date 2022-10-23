@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { trpc } from "@utils/trpc";
 import { useStore } from "@store/store";
+import { Dish } from "@prisma/client";
 
 const useBattleSolver = () => {
   const playerArenaCard = useStore((state) => state.playerArenaCard);
@@ -9,8 +10,8 @@ const useBattleSolver = () => {
 
   const { data: turns, refetch } = trpc.battle.solve.useQuery(
     {
-      playerId: playerArenaCard?.id as number,
-      enemyId: enemyArenaCard?.id as number,
+      playerCard: playerArenaCard as Dish,
+      enemyCard: enemyArenaCard as Dish,
     },
     {
       enabled: false,

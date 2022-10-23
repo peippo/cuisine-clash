@@ -5,7 +5,7 @@ const CardSelectCount = () => {
   const selectedCount = useStore((state) => state.playerCards.length);
 
   return (
-    <div className="flex items-center justify-center font-serif text-5xl text-slate-600">
+    <div className="flex items-center justify-center font-serif text-4xl text-slate-600 md:text-5xl">
       <span className={`${selectedCount > 0 ? "text-purple-500" : ""}`}>
         {selectedCount}
       </span>

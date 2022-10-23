@@ -21,7 +21,7 @@ const Intro = () => {
         />
         <h1 className="sr-only">Cuisine Clash</h1>
         <div className="flex flex-col motion-safe:animate-intro-content">
-          <p className="mb-5 text-2xl text-indigo-400">
+          <p className="mb-5 text-lg text-indigo-400 md:text-2xl">
             A food fighting card game
           </p>
           <Button onClickHandler={() => moveToView("DRAFTING")}>

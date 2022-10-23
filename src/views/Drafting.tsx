@@ -16,7 +16,9 @@ const Drafting = () => {
         <title>Draft your deck</title>
       </Head>
       <main className="container mx-auto px-6">
-        <h1 className="my-8 text-center text-4xl">Draft your deck</h1>
+        <h1 className="my-8 text-center text-3xl text-indigo-400 md:text-5xl">
+          Draft your deck
+        </h1>
         <section className="flex flex-col items-center">
           <div className="mb-6 flex w-full items-center justify-between">
             <CardSelectCount />
@@ -24,11 +26,14 @@ const Drafting = () => {
           </div>
           <CardSelect />
 
-          {isHandFull && (
-            <Button onClickHandler={() => moveToView("BATTLE")}>
+          <div className="-mt-12 mb-12">
+            <Button
+              isDisabled={!isHandFull}
+              onClickHandler={() => moveToView("BATTLE")}
+            >
               Go battle!
             </Button>
-          )}
+          </div>
         </section>
       </main>
     </>

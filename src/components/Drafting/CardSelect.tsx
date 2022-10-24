@@ -22,7 +22,7 @@ const CardSelect = () => {
 
   return (
     <>
-      <div className="mt-4 flex min-h-[40rem] w-full flex-wrap items-center justify-center border-t-4 border-b-4 border-double border-indigo-900 pt-5 pb-10">
+      <div className="flex min-h-[40rem] w-full flex-wrap items-center justify-center border-t-8 border-indigo-900 pt-5 pb-10">
         {cards || tableCards.length ? (
           tableCards.map((card) => (
             <Card

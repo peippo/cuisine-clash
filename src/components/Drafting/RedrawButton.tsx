@@ -15,7 +15,7 @@ const RedrawButton = () => {
   return (
     <button
       className={classNames(
-        "group relative self-center rounded-lg border-t-2 border-l-2 border-indigo-600 bg-gradient-to-b from-indigo-700 to-indigo-900 text-cyan-100",
+        "group relative order-3 self-center rounded-lg border-t-2 border-l-2 border-indigo-600 bg-gradient-to-b from-indigo-700 to-indigo-900 text-cyan-100",
         "disabled:cursor-not-allowed disabled:border-slate-600 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-400",
         "hover:border-indigo-700 hover:bg-gradient-to-b hover:from-indigo-900 hover:to-indigo-800"
       )}
@@ -30,11 +30,11 @@ const RedrawButton = () => {
       >
         {redrawsLeft}
       </span>
-      <span className="sr-only">redraws available</span>
+      <span className="sr-only">rerolls available</span>
       <span className="flex pr-16 pt-1 pb-2 pl-5 md:pr-20 md:text-lg">
         {hasRedraws
-          ? `Redraw ${MAX_DRAFT_CARDS - playerCards.length} cards`
-          : "No redraws left"}
+          ? `Reroll ${MAX_DRAFT_CARDS - playerCards.length} cards`
+          : "No rerolls left"}
       </span>
     </button>
   );

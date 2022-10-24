@@ -16,17 +16,17 @@ const Drafting = () => {
         <title>Draft your deck</title>
       </Head>
       <main className="container mx-auto px-6">
-        <h1 className="my-8 text-center text-3xl text-indigo-400 md:text-5xl">
-          Draft your deck
-        </h1>
-        <section className="flex flex-col items-center">
-          <div className="mb-6 flex w-full items-center justify-between">
+        <section className="mt-8 flex flex-col items-center">
+          <div className="flex w-full flex-wrap items-center justify-between">
             <CardSelectCount />
+            <h1 className="order-1 ml-10 mr-auto mb-5 basis-full text-center text-3xl text-indigo-400 md:text-4xl lg:mb-0 lg:basis-auto">
+              Draft your deck
+            </h1>
             <RedrawButton />
           </div>
           <CardSelect />
 
-          <div className="-mt-12 mb-12">
+          <div className="mb-12">
             <Button
               isDisabled={!isHandFull}
               onClickHandler={() => moveToView("BATTLE")}

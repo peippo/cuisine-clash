@@ -31,18 +31,14 @@ export const battleRouter = t.router({
           salt: z.number().nullable(),
           vitaminc: z.number().nullable(),
         }),
-        startingSide: z.enum(["player", "enemy"]),
       })
     )
     .query(({ input }) => {
       let round = 1;
+      let successiveTurns = 1;
       let stats = null;
       const battlers = ["player", "enemy"] as Battlers[];
       const rounds = [];
-
-      if (input.startingSide === "enemy") {
-        battlers.reverse();
-      }
 
       const getStats = (card: Dish) => {
         return {
@@ -66,6 +62,17 @@ export const battleRouter = t.router({
           ...getStats(input.enemyCard),
         },
       };
+
+      const slowerBattler =
+        stats.enemy.delay > stats.player.delay ? "player" : "enemy";
+
+      slowerBattler === "enemy" && battlers.reverse();
+
+      const higherDelay = Math.max(stats.player.delay, stats.enemy.delay);
+      const lowerDelay = Math.min(stats.player.delay, stats.enemy.delay);
+
+      let delayFactor = Math.max(higherDelay, 1) / Math.max(lowerDelay, 1);
+      delayFactor = Math.round(delayFactor);
 
       while (stats.player.hp > 0 && stats.enemy.hp > 0) {
         const attacker = battlers[0] as Battlers;
@@ -99,8 +106,23 @@ export const battleRouter = t.router({
         };
 
         rounds.push(roundData);
+
+        if (!delayFactor) {
+          battlers.reverse();
+        } else {
+          if (attacker === slowerBattler) {
+            if (successiveTurns < delayFactor) {
+              successiveTurns += 1;
+            } else {
+              battlers.reverse();
+              successiveTurns = 1;
+            }
+          } else {
+            battlers.reverse();
+          }
+        }
+
         round += 1;
-        battlers.reverse();
       }
 
       return rounds;

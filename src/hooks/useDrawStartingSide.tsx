@@ -22,8 +22,6 @@ const useDrawStartingSide = () => {
         : "WAITING_FOR_ENEMY"
     );
   }, [randomStartingSide]);
-
-  return { startingSide };
 };
 
 export default useDrawStartingSide;

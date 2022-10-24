@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { trpc } from "@utils/trpc";
 import { useStore } from "@store/store";
 import { Dish } from "@prisma/client";
-import { Battlers, TurnData } from "@customTypes/types";
+import { TurnData } from "@customTypes/types";
 
-const useBattleSolver = (startingSide: Battlers) => {
+const useBattleSolver = () => {
   const playerArenaCard = useStore((state) => state.playerArenaCard);
   const enemyArenaCard = useStore((state) => state.enemyArenaCard);
   const updateTurnData = useStore((state) => state.updateTurnData);
@@ -17,7 +17,6 @@ const useBattleSolver = (startingSide: Battlers) => {
     {
       playerCard: playerArenaCard as Dish,
       enemyCard: enemyArenaCard as Dish,
-      startingSide: startingSide,
     },
     {
       enabled: false,

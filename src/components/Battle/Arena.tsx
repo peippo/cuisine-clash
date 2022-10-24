@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
-import { randomInt } from "@utils/general";
+import { getRandomBetween } from "@utils/general";
 import useBattleSolver from "@hooks/useBattleSolver";
 import useArenaCardUpdater from "@hooks/useArenaCardUpdater";
 
@@ -25,7 +25,7 @@ const Arena = () => {
     if (arenaStatus === "WAITING_FOR_ENEMY") {
       setTimeout(() => {
         playRandomEnemyCard();
-      }, randomInt(1000, 2000));
+      }, getRandomBetween(1000, 2000));
     }
     if (arenaStatus === "BATTLE_ONGOING") {
       refetch();

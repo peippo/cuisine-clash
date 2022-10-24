@@ -7,7 +7,7 @@ import {
   MAX_HAND_CARDS,
   DRAFTING_REDRAWS,
 } from "@utils/constants";
-import { randomInt } from "@utils/general";
+import { getRandomBetween } from "@utils/general";
 
 type StoreState = {
   view: Views;
@@ -172,7 +172,7 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   // Enemy cards actions
   playRandomEnemyCard: () => {
     const max = get().enemyCards.length - 1;
-    const randomCard = get().enemyCards[randomInt(0, max)] as Dish;
+    const randomCard = get().enemyCards[getRandomBetween(0, max)] as Dish;
 
     set((state) => ({
       enemyArenaCard: randomCard,

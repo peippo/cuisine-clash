@@ -1,6 +1,6 @@
 import { TOTAL_DISHES } from "./constants";
 
-const getRandomBetween = (min: number, max: number) => {
+export const getRandomBetween = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
@@ -42,8 +42,4 @@ export const getCardRotation = ({
       ? `${-Math.abs(distance) * 4}deg`
       : `${Math.abs(distance) * 4}deg`;
   }
-};
-
-export const randomInt = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 };

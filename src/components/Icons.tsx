@@ -1,4 +1,9 @@
-export const HeartIcon = (props: any) => (
+type Props = {
+  width: string;
+  className: string;
+};
+
+export const HeartIcon = (props: Props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
@@ -12,7 +17,7 @@ export const HeartIcon = (props: any) => (
   </svg>
 );
 
-export const SwordIcon = (props: any) => (
+export const SwordIcon = (props: Props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
@@ -26,7 +31,7 @@ export const SwordIcon = (props: any) => (
   </svg>
 );
 
-export const ShieldIcon = (props: any) => (
+export const ShieldIcon = (props: Props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"

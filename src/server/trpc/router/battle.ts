@@ -68,8 +68,8 @@ export const battleRouter = t.router({
       };
 
       while (stats.player.hp > 0 && stats.enemy.hp > 0) {
-        const attacker = battlers[0]!;
-        const defender = battlers[1]!;
+        const attacker = battlers[0] as Battlers;
+        const defender = battlers[1] as Battlers;
         let damage = 0;
         let winner = undefined;
         let message;

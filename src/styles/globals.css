@@ -11,3 +11,112 @@ h2,
 h3 {
   @apply font-serif;
 }
+
+.card {
+  --step: 5%;
+  --pattern: url("/card-bg.png") center;
+  --rainbow: repeating-linear-gradient(
+      0deg,
+      rgb(255, 119, 115) calc(var(--step) * 1),
+      rgba(255, 237, 95, 1) calc(var(--step) * 2),
+      rgba(168, 255, 95, 1) calc(var(--step) * 3),
+      rgba(131, 255, 247, 1) calc(var(--step) * 4),
+      rgba(120, 148, 255, 1) calc(var(--step) * 5),
+      rgb(216, 117, 255) calc(var(--step) * 6),
+      rgb(255, 119, 115) calc(var(--step) * 7)
+    )
+    0% / 200% 700%;
+  --diagonal: repeating-linear-gradient(
+      128deg,
+      #0e152e 0%,
+      hsl(180, 10%, 60%) 3.8%,
+      hsl(180, 10%, 60%) 4.5%,
+      hsl(180, 10%, 60%) 5.2%,
+      #0e152e 10%,
+      #0e152e 12%
+    )
+    200%;
+  --shade: radial-gradient(
+      farthest-corner circle at 50% 50%,
+      rgba(255, 255, 255, 0.1) 12%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.25) 120%
+    )
+    200%;
+}
+
+.card--active {
+  transform: rotateX(var(--x)) rotateY(var(--y));
+
+  --rainbow: repeating-linear-gradient(
+      0deg,
+      rgb(255, 119, 115) calc(var(--step) * 1),
+      rgba(255, 237, 95, 1) calc(var(--step) * 2),
+      rgba(168, 255, 95, 1) calc(var(--step) * 3),
+      rgba(131, 255, 247, 1) calc(var(--step) * 4),
+      rgba(120, 148, 255, 1) calc(var(--step) * 5),
+      rgb(216, 117, 255) calc(var(--step) * 6),
+      rgb(255, 119, 115) calc(var(--step) * 7)
+    )
+    0% var(--bgY) / 200% 700%;
+  --diagonal: repeating-linear-gradient(
+      128deg,
+      #0e152e 0%,
+      hsl(180, 10%, 60%) 3.8%,
+      hsl(180, 10%, 60%) 4.5%,
+      hsl(180, 10%, 60%) 5.2%,
+      #0e152e 10%,
+      #0e152e 12%
+    )
+    var(--bgX) var(--bgY) / 300%;
+  --shade: radial-gradient(
+      farthest-corner circle at var(--x) var(--y),
+      rgba(255, 255, 255, 0.1) 12%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.25) 120%
+    )
+    var(--bgX) var(--bgY) / 300%;
+}
+
+.card--active .card__3d {
+  transform: rotateY(var(--rX)) rotateX(var(--rY));
+}
+
+.card__wrapper {
+  perspective: 600px;
+}
+
+.card__soft {
+  mix-blend-mode: soft-light;
+  clip-path: inset(0 0 1px 0 round 12px);
+}
+
+.card--active .card__soft {
+  background: radial-gradient(
+    farthest-corner circle at var(--x) var(--y),
+    rgba(255, 255, 255, 0.3) 10%,
+    rgba(255, 255, 255, 0.25) 20%,
+    rgba(255, 255, 255, 0) 90%
+  );
+}
+
+.card__blend {
+  mix-blend-mode: color-dodge;
+  will-change: background;
+  transition-property: opacity;
+  clip-path: inset(0 0 1px 0 round 12px);
+  background-blend-mode: hue, hue, hard-light, overlay;
+  background: var(--pattern), var(--rainbow), var(--diagonal);
+}
+
+.card__blend:after {
+  background: var(--pattern), var(--rainbow), var(--diagonal), var(--shade);
+  mix-blend-mode: exclusion;
+  background-size: 100%, 200% 400%, 800%, 200%;
+  background-blend-mode: soft-light, hue, hard-light;
+}
+
+.card--active .card__blend:after {
+  background-position: center, 0% var(--bgY),
+    calc(var(--bgX) * -1) calc(var(--bgY) * -1), var(--bgX) var(--bgY);
+}

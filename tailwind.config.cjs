@@ -35,6 +35,12 @@ module.exports = {
         "intro-logo": "zoomInDown 1.5s linear",
         "intro-content": "delayFadeIn 3s ease-in",
       },
+      colors: {
+        legendary: "#1e1702",
+        "legendary-light": "#312205",
+        epic: "#0f000f",
+        "epic-light": "#1e001e",
+      },
     },
     fontFamily: {
       sans: ["Source Sans Pro", "system-ui", "sans-serif"],

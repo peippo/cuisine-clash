@@ -7,7 +7,7 @@ import {
   MAX_HAND_CARDS,
   DRAFTING_REDRAWS,
 } from "@utils/constants";
-import { getRandomBetween } from "@utils/general";
+import { getCardRarity, getRandomBetween } from "@utils/general";
 
 type StoreState = {
   view: Views;
@@ -135,6 +135,9 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
 
   // Player cards actions
   addToPlayerHand: (card) => {
+    const rarity = getCardRarity(card);
+    card.rarity = rarity;
+
     set((state) => ({
       playerCards: [...state.playerCards, card],
     }));
@@ -173,6 +176,9 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   playRandomEnemyCard: () => {
     const max = get().enemyCards.length - 1;
     const randomCard = get().enemyCards[getRandomBetween(0, max)] as Dish;
+
+    const rarity = getCardRarity(randomCard);
+    randomCard.rarity = rarity;
 
     set((state) => ({
       enemyArenaCard: randomCard,

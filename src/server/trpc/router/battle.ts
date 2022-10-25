@@ -18,6 +18,7 @@ export const battleRouter = t.router({
           iron: z.number().nullable(),
           salt: z.number().nullable(),
           vitaminc: z.number().nullable(),
+          rarity: z.string().nullable(),
         }),
         enemyCard: z.object({
           id: z.number(),
@@ -30,6 +31,7 @@ export const battleRouter = t.router({
           iron: z.number().nullable(),
           salt: z.number().nullable(),
           vitaminc: z.number().nullable(),
+          rarity: z.string().nullable(),
         }),
       })
     )

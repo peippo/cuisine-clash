@@ -1,3 +1,5 @@
+import { CardRarity } from "@customTypes/types";
+import { Dish } from "@prisma/client";
 import { TOTAL_DISHES } from "./constants";
 
 export const getRandomBetween = (min: number, max: number) => {
@@ -21,6 +23,32 @@ export const getArrayOfRandomIds = (
   return randomIds;
 };
 
+export const getCardRarity = (card: Dish) => {
+  let rarity: CardRarity = "COMMON";
+  const hp = card.energy;
+  const attack = card.carb;
+  const defence = card.protein;
+  const delay = attack + defence + card.fat;
+
+  if (
+    (hp > 1500 && attack > 25 && defence > 5) ||
+    (hp > 900 && attack > 40 && defence > 5) ||
+    attack > 65 ||
+    (attack > 50 && delay < 65)
+  ) {
+    rarity = "LEGENDARY";
+  } else if (
+    (hp > 1250 && attack > 25 && delay < 50) ||
+    (hp > 800 && attack > 35) ||
+    attack > 60 ||
+    (attack > 40 && delay < 50)
+  ) {
+    rarity = "EPIC";
+  }
+
+  return rarity;
+};
+
 export const getCardRotation = ({
   index,
   totalCards,
@@ -42,4 +70,8 @@ export const getCardRotation = ({
       ? `${-Math.abs(distance) * 4}deg`
       : `${Math.abs(distance) * 4}deg`;
   }
+};
+
+export const mapToRange = (value: number, min: number, max: number) => {
+  return (value - min) / (max - min);
 };

@@ -25,6 +25,7 @@ model Dish {
     iron              Float?
     salt              Float?
     vitaminc          Float?
+    rarity            String?
 }
 
 // Necessary for Next auth

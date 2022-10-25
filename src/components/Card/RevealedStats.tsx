@@ -1,29 +1,41 @@
 import classNames from "classnames";
 import { HeartIcon, ShieldIcon, SwordIcon } from "@components/Icons";
+import { CardRarity } from "@customTypes/types";
 
 type Props = {
   energy: number;
   carb: number;
   protein: number;
+  rarity: CardRarity;
 };
 
-const RevealedStats = ({ energy, carb, protein }: Props) => {
+const RevealedStats = ({ energy, carb, protein, rarity }: Props) => {
   const isDead = !energy;
 
   return (
     <ul
       aria-label="Stats"
-      className="mb-0 mt-auto transition-colors duration-1000"
+      className="z-20 mb-0 mt-auto transition-colors duration-1000"
     >
       <li
         className={classNames(
-          "my-2 flex",
+          "my-2 flex items-center",
           isDead ? "text-zinc-500" : "text-orange-500"
         )}
       >
         <HeartIcon width="24" className="mr-3 drop-shadow-md" />
         <span className="sr-only">Hitpoints:</span>
         <span className="text-lg">{energy}</span>
+        <p
+          className={classNames(
+            "ml-auto mr-1 text-right text-sm",
+            rarity === "COMMON" && "text-slate-600",
+            rarity === "EPIC" && "text-purple-600",
+            rarity === "LEGENDARY" && "text-yellow-600"
+          )}
+        >
+          {rarity}
+        </p>
       </li>
       <li
         className={classNames(
@@ -35,7 +47,10 @@ const RevealedStats = ({ energy, carb, protein }: Props) => {
         <span className="sr-only">Attack:</span>
         <div
           className={classNames(
-            "relative h-5 w-full rounded-lg border-b border-b-slate-600 bg-slate-900"
+            "relative h-5 w-full rounded-lg border-b",
+            rarity === "COMMON" && "border-b-slate-600 bg-slate-900",
+            rarity === "EPIC" && "border-b-purple-800 bg-epic",
+            rarity === "LEGENDARY" && "border-b-yellow-800 bg-legendary"
           )}
         >
           <div
@@ -60,7 +75,10 @@ const RevealedStats = ({ energy, carb, protein }: Props) => {
         <span className="sr-only">Defence:</span>
         <div
           className={classNames(
-            "relative h-5 w-full rounded-lg border-b border-b-slate-500 bg-slate-900"
+            "relative h-5 w-full rounded-lg border-b",
+            rarity === "COMMON" && "border-b-slate-500 bg-slate-900",
+            rarity === "EPIC" && "border-b-purple-800 bg-epic",
+            rarity === "LEGENDARY" && "border-b-yellow-800 bg-legendary"
           )}
         >
           <div

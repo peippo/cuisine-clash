@@ -16,3 +16,5 @@ export type TurnData = {
   message: string;
   winner: Battlers | undefined;
 };
+
+export type CardRarity = "COMMON" | "EPIC" | "LEGENDARY";

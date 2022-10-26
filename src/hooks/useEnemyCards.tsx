@@ -3,7 +3,9 @@ import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
 
 const useEnemyCards = () => {
-  const { cards } = useDrawCards({ isEnemy: true });
+  const { cards, isLoading: isLoadingEnemyCards } = useDrawCards({
+    isEnemy: true,
+  });
   const addCards = useStore((state) => state.addCardsToEnemy);
 
   useEffect(() => {
@@ -11,6 +13,8 @@ const useEnemyCards = () => {
       addCards(cards);
     }
   }, [cards]);
+
+  return { isLoadingEnemyCards };
 };
 
 export default useEnemyCards;

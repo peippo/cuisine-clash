@@ -6,7 +6,7 @@ import HandCards from "@components/Battle/HandCards";
 import EnemyCards from "@components/Battle/EnemyCards";
 
 const Battle = () => {
-  useEnemyCards();
+  const { isLoadingEnemyCards } = useEnemyCards();
 
   return (
     <>
@@ -15,7 +15,7 @@ const Battle = () => {
       </Head>
       <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <EnemyCards />
-        <Arena />
+        <Arena isLoadingEnemyCards={isLoadingEnemyCards} />
         <HandCards />
       </main>
     </>

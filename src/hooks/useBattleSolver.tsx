@@ -13,7 +13,7 @@ const useBattleSolver = () => {
     undefined
   );
 
-  const { data: turns, refetch } = trpc.battle.solve.useQuery(
+  const { data: turns, refetch: solveBattle } = trpc.battle.solve.useQuery(
     {
       playerCard: playerArenaCard as Dish,
       enemyCard: enemyArenaCard as Dish,
@@ -45,7 +45,7 @@ const useBattleSolver = () => {
     return () => clearInterval(interval);
   }, [turnsQueue]);
 
-  return { refetch };
+  return { solveBattle };
 };
 
 export default useBattleSolver;

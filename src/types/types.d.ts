@@ -18,3 +18,12 @@ export type TurnData = {
 };
 
 export type CardRarity = "COMMON" | "EPIC" | "LEGENDARY";
+
+export type CardSpeed =
+  | "STAGNANT"
+  | "SLUGGISH"
+  | "SLOW"
+  | "STANDARD"
+  | "FAST"
+  | "SWIFT"
+  | "SUPERSONIC";

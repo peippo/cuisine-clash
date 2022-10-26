@@ -1,4 +1,4 @@
-import { CardRarity } from "@customTypes/types";
+import { CardRarity, CardSpeed } from "@customTypes/types";
 import { Dish } from "@prisma/client";
 import { TOTAL_DISHES } from "./constants";
 
@@ -47,6 +47,31 @@ export const getCardRarity = (card: Dish) => {
   }
 
   return rarity;
+};
+
+export const getCardSpeed = (delay: number) => {
+  let speed: CardSpeed = "STANDARD";
+
+  switch (true) {
+    case delay >= 85:
+      speed = "STAGNANT";
+      break;
+    case delay >= 70 && delay < 85:
+      speed = "SLUGGISH";
+      break;
+    case delay >= 50 && delay < 65:
+      speed = "SLOW";
+      break;
+    case delay >= 15 && delay < 30:
+      speed = "FAST";
+      break;
+    case delay <= 5 && delay < 15:
+      speed = "SWIFT";
+    case delay < 5:
+      speed = "SUPERSONIC";
+  }
+
+  return speed;
 };
 
 export const getCardRotation = ({

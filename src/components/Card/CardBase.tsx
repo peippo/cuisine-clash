@@ -25,7 +25,7 @@ const CardBase = ({
   isEnemy = false,
 }: Props) => {
   const view = useStore((state) => state.view);
-  const { name, energy, carb, protein, rarity } = card;
+  const { name, energy, carb, protein, fat, rarity } = card;
   const { ref, variables } = useCardVariables();
 
   const isDead = !energy;
@@ -107,6 +107,7 @@ const CardBase = ({
                     energy={energy}
                     carb={carb}
                     protein={protein}
+                    fat={fat}
                     rarity={rarity as CardRarity}
                   />
                 ) : (

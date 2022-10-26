@@ -1,16 +1,22 @@
+import { useMemo } from "react";
 import classNames from "classnames";
 import { HeartIcon, ShieldIcon, SwordIcon } from "@components/Icons";
 import { CardRarity } from "@customTypes/types";
+import { getCardSpeed } from "@utils/general";
 
 type Props = {
   energy: number;
   carb: number;
   protein: number;
+  fat: number;
   rarity: CardRarity;
 };
 
-const RevealedStats = ({ energy, carb, protein, rarity }: Props) => {
+const RevealedStats = ({ energy, carb, protein, fat, rarity }: Props) => {
   const isDead = !energy;
+  const delay = carb + protein + fat;
+
+  const speed = useMemo(() => getCardSpeed(delay), [delay]);
 
   return (
     <ul
@@ -92,6 +98,10 @@ const RevealedStats = ({ energy, carb, protein, rarity }: Props) => {
           ></div>
           <span className="absolute right-2 text-sm">{protein}</span>
         </div>
+      </li>
+      <li className="text-xs text-stone-400">
+        <span className="sr-only">Speed:</span>
+        {speed}
       </li>
     </ul>
   );

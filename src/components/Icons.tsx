@@ -44,3 +44,17 @@ export const ShieldIcon = (props: Props) => (
     />
   </svg>
 );
+
+export const WarningIcon = (props: Props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512"
+    aria-hidden="true"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M256 32L0 480H512L256 32zm24 160v24V328v24H232V328 216 192h48zM232 384h48v48H232V384z"
+    />
+  </svg>
+);

@@ -3,8 +3,13 @@ import { useStore } from "@store/store";
 
 import Image from "next/image";
 import Button from "@components/Button";
+import { ScreenSizeMessage } from "@components/ScreenSizeError";
 
-const Intro = () => {
+type Props = {
+  isSmallScreen: boolean;
+};
+
+const Intro: React.FC<Props> = ({ isSmallScreen }) => {
   const moveToView = useStore((state) => state.moveToView);
 
   return (
@@ -21,11 +26,15 @@ const Intro = () => {
           alt=""
         />
         <h1 className="sr-only">Cuisine Clash</h1>
-        <div className="flex flex-col motion-safe:animate-intro-content">
-          <p className="mb-5 text-lg text-indigo-400 md:text-2xl">
+        <div className="flex flex-col items-center motion-safe:animate-intro-content">
+          <p className="mb-5 text-lg text-indigo-400 md:text-2xl lg:text-3xl">
             A food fighting card game
           </p>
-          <Button onClickHandler={() => moveToView("DRAFTING")}>
+          {isSmallScreen && <ScreenSizeMessage />}
+          <Button
+            onClickHandler={() => moveToView("DRAFTING")}
+            isDisabled={isSmallScreen}
+          >
             Start Game
           </Button>
         </div>

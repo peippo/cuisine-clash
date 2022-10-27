@@ -7,7 +7,8 @@ import {
   MAX_HAND_CARDS,
   DRAFTING_REDRAWS,
 } from "@utils/constants";
-import { getCardRarity, getRandomBetween } from "@utils/general";
+import { getRandomBetween } from "@utils/general";
+import { getCardRarity } from "@utils/cards";
 
 type StoreState = {
   view: Views;

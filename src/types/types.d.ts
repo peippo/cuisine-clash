@@ -14,6 +14,7 @@ export type TurnData = {
   actor: Battlers;
   damage: number;
   message: string;
+  isBlocked: boolean;
   winner: Battlers | undefined;
 };
 

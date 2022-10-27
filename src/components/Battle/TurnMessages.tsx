@@ -3,6 +3,12 @@ import { useStore } from "@store/store";
 import classNames from "classnames";
 import type { TurnData } from "@customTypes/types";
 
+import {
+  EnemyAttackIcon,
+  PlayerAttackIcon,
+  ShieldIcon,
+} from "@components/Icons";
+
 const TurnMessages = () => {
   const currentTurnData = useStore((state) => state.turnData);
   const clearTurn = useStore((state) => state.clearTurn);
@@ -10,6 +16,8 @@ const TurnMessages = () => {
   const [turnHistory, setTurnHistory] = useState<TurnData[]>([]);
 
   useEffect(() => {
+    if (!currentTurnData) return;
+
     const turns = turnHistory
       ? [...turnHistory, currentTurnData as TurnData]
       : [currentTurnData as TurnData];
@@ -30,23 +38,34 @@ const TurnMessages = () => {
         "after:absolute after:top-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-b after:from-gray-900"
       )}
     >
-      {turnHistory.map(
-        (turn) =>
-          turn && (
-            <p
-              className={classNames(
-                "border-b border-indigo-900 pr-4",
-                turn.winner && "text-red-500"
-              )}
-              key={turn.round}
-            >
-              <span className="mr-2 inline-block w-12 bg-indigo-900 py-1 px-3 text-right text-indigo-300">
-                {turn.round}
-              </span>{" "}
-              {turn.message}
-            </p>
-          )
-      )}
+      {turnHistory?.map(({ round, actor, message, isBlocked, winner }) => (
+        <div
+          className="flex items-center border-b border-indigo-900 pr-4"
+          key={round}
+        >
+          <span className="mr-2 inline-block w-12 bg-indigo-900 py-1 px-3 text-right text-indigo-300">
+            {round}
+          </span>
+          <span
+            className={classNames(
+              "flex",
+              winner && "text-red-500",
+              !winner && actor === "player" && "text-slate-300",
+              !winner && actor === "enemy" && "text-slate-400"
+            )}
+          >
+            {isBlocked ? (
+              <ShieldIcon width="14" className="mr-2" />
+            ) : actor === "player" ? (
+              <PlayerAttackIcon width="14" className="mr-2" />
+            ) : (
+              <EnemyAttackIcon width="14" className="mr-2" />
+            )}
+
+            {message}
+          </span>
+        </div>
+      ))}
 
       {currentTurnData?.winner && (
         <button

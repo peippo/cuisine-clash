@@ -2,6 +2,7 @@ import { t } from "@server/trpc/trpc";
 import { z } from "zod";
 import { Dish } from "@prisma/client";
 import { Battlers } from "@customTypes/types";
+import { generateMessage } from "@utils/battle";
 
 export const battleRouter = t.router({
   solve: t.procedure
@@ -44,7 +45,7 @@ export const battleRouter = t.router({
 
       const getStats = (card: Dish) => {
         return {
-          name: card.name.split(",")[0],
+          name: card.name.split(",")[0] as string,
           hp: card.energy,
           attack: card.carb * 5,
           defence: card.protein,
@@ -79,23 +80,14 @@ export const battleRouter = t.router({
       while (stats.player.hp > 0 && stats.enemy.hp > 0) {
         const attacker = battlers[0] as Battlers;
         const defender = battlers[1] as Battlers;
-        let damage = 0;
         let winner = undefined;
-        let message;
 
         const isBlocked = Math.random() < stats[defender]["defence"] / 100;
-
-        if (isBlocked) {
-          message = `${stats[attacker].name} hits but it's blocked by ${stats[defender].name}`;
-        } else {
-          damage = stats[attacker]["attack"];
-          message = `${stats[attacker].name} hits and deals ${damage} damage (${stats[defender]["hp"]} left)`;
-        }
+        const damage = isBlocked ? 0 : stats[attacker]["attack"];
 
         stats[defender]["hp"] -= damage;
 
         if (stats[defender]["hp"] <= 0) {
-          message = `${stats[attacker].name} hits and deals ${damage} damage killing ${stats[defender].name}!`;
           winner = attacker;
         }
 
@@ -103,7 +95,14 @@ export const battleRouter = t.router({
           round: round,
           actor: attacker,
           damage: damage,
-          message: message,
+          message: generateMessage(
+            stats[attacker].name,
+            stats[defender].name,
+            damage,
+            isBlocked,
+            winner
+          ),
+          isBlocked: isBlocked,
           winner: winner,
         };
 

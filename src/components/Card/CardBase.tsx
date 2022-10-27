@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import { Dish } from "@prisma/client";
 import classNames from "classnames";
 import RevealedStats from "./RevealedStats";
@@ -39,10 +39,24 @@ const CardBase = ({
     "--bgY": variables.bgY,
   } as React.CSSProperties;
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (
+      !onClickHandler ||
+      isDisabled ||
+      (event.key !== "Enter" && event.key !== " ")
+    )
+      return;
+
+    onClickHandler();
+  };
+
   return (
     <article
+      role="option"
+      tabIndex={isEnemy || isDisabled ? -1 : 0}
       ref={ref}
       style={styleVariables}
+      onKeyDown={handleKeyDown}
       onClick={
         !onClickHandler || isDisabled ? undefined : () => onClickHandler()
       }

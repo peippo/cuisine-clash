@@ -22,7 +22,10 @@ const CardSelect = () => {
 
   return (
     <>
-      <div className="flex min-h-[40rem] w-full flex-wrap items-center justify-center border-t-8 border-indigo-900 pt-5 pb-10">
+      <div
+        role="listbox"
+        className="flex min-h-[40rem] w-full flex-wrap items-center justify-center border-t-8 border-indigo-900 pt-5 pb-10"
+      >
         {cards || tableCards.length ? (
           tableCards.map((card) => (
             <Card

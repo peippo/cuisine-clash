@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import classNames from "classnames";
 import { HeartIcon, ShieldIcon, SwordIcon } from "@components/Icons";
 import { CardRarity } from "@customTypes/types";
-import { getCardSpeed } from "@utils/general";
+import { getCardSpeed } from "@utils/cards";
 
 type Props = {
   energy: number;

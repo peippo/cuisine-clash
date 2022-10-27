@@ -1,5 +1,5 @@
 import { useStore } from "@store/store";
-import { getCardRotation } from "@utils/general";
+import { getCardRotation } from "@utils/cards";
 
 import Card from "@components/Card/CardBase";
 

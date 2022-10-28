@@ -28,3 +28,5 @@ export type CardSpeed =
   | "FAST"
   | "SWIFT"
   | "SUPERSONIC";
+
+export type TurnSpeed = 150 | 300 | 600;

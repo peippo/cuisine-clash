@@ -8,6 +8,7 @@ import {
   PlayerAttackIcon,
   ShieldIcon,
 } from "@components/Icons";
+import TurnSpeedSelector from "./TurnSpeedSelector";
 
 const TurnMessages = () => {
   const currentTurnData = useStore((state) => state.turnData);
@@ -89,6 +90,8 @@ const TurnMessages = () => {
           <span className="sr-only">Next turn</span>
         </button>
       )}
+
+      <TurnSpeedSelector />
     </div>
   );
 };

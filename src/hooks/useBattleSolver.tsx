@@ -8,6 +8,7 @@ const useBattleSolver = () => {
   const playerArenaCard = useStore((state) => state.playerArenaCard);
   const enemyArenaCard = useStore((state) => state.enemyArenaCard);
   const updateTurnData = useStore((state) => state.updateTurnData);
+  const turnSpeed = useStore((state) => state.turnSpeed);
 
   const [turnsQueue, setTurnsQueue] = useState<TurnData[] | undefined>(
     undefined
@@ -38,12 +39,12 @@ const useBattleSolver = () => {
         setTurnsQueue(turnsQueue.slice(1));
         updateTurnData(nextTurnData);
       }
-    }, 500);
+    }, turnSpeed);
 
     if (turnsQueue.length === 0) clearInterval(interval);
 
     return () => clearInterval(interval);
-  }, [turnsQueue]);
+  }, [turnsQueue, turnSpeed]);
 
   return { solveBattle };
 };

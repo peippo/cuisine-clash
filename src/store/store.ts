@@ -1,6 +1,12 @@
 import create from "zustand";
 import { Dish } from "@prisma/client";
-import { Views, ArenaStatus, TurnData, Battlers } from "@customTypes/types";
+import {
+  Views,
+  ArenaStatus,
+  TurnData,
+  Battlers,
+  TurnSpeed,
+} from "@customTypes/types";
 
 import {
   MAX_DRAFT_CARDS,
@@ -11,6 +17,7 @@ import { getRandomBetween } from "@utils/general";
 import { getCardRarity } from "@utils/cards";
 
 type StoreState = {
+  turnSpeed: TurnSpeed;
   view: Views;
   countToFetch: number;
   redrawsLeft: number;
@@ -28,6 +35,7 @@ type StoreState = {
 };
 
 type StoreActions = {
+  setTurnSpeed: (speed: TurnSpeed) => void;
   moveToView: (view: Views) => void;
   resetGame: () => void;
   resetDrafting: () => void;
@@ -53,6 +61,7 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   view: "TITLE",
   startingSide: undefined,
   roundWinner: undefined,
+  turnSpeed: 600,
 
   // Drafting state
   countToFetch: MAX_DRAFT_CARDS,
@@ -72,6 +81,7 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
   turnData: undefined,
 
   // Game actions
+  setTurnSpeed: (speed) => set(() => ({ turnSpeed: speed })),
   moveToView: (view) => set(() => ({ view: view })),
   resetGame: () =>
     set(() => ({

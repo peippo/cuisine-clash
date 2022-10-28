@@ -1,7 +1,9 @@
 import Button from "@components/Button";
 import { useStore } from "@store/store";
+import { useQueryClient } from "@tanstack/react-query";
 
 const StatusMessages = () => {
+  const queryClient = useQueryClient();
   const arenaStatus = useStore((state) => state.arenaStatus);
   const roundWinner = useStore((state) => state.roundWinner);
   const updateArenaStatus = useStore((state) => state.updateArenaStatus);
@@ -9,9 +11,10 @@ const StatusMessages = () => {
   const resetDrafting = useStore((state) => state.resetDrafting);
 
   const handleNextRoundClick = () => {
+    queryClient.clear();
+    resetDrafting();
     updateArenaStatus("IDLE");
     moveToView("DRAFTING");
-    resetDrafting();
   };
 
   return (

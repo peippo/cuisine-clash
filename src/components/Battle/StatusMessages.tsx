@@ -10,11 +10,20 @@ const StatusMessages = () => {
   const moveToView = useStore((state) => state.moveToView);
   const resetDrafting = useStore((state) => state.resetDrafting);
 
-  const handleNextRoundClick = () => {
+  const resetGame = () => {
     queryClient.clear();
     resetDrafting();
     updateArenaStatus("IDLE");
+  };
+
+  const handleNextRoundClick = () => {
+    resetGame();
     moveToView("DRAFTING");
+  };
+
+  const handleTitleScreenClick = () => {
+    resetGame();
+    moveToView("TITLE");
   };
 
   return (
@@ -92,9 +101,18 @@ const StatusMessages = () => {
         </>
       )}
       {arenaStatus === "BATTLE_FINISHED" && (
-        <Button onClickHandler={handleNextRoundClick}>
-          Play another round
-        </Button>
+        <div className="flex">
+          <Button onClickHandler={handleNextRoundClick}>
+            Play another round
+          </Button>
+          <Button
+            onClickHandler={handleTitleScreenClick}
+            isSecondary={true}
+            className="ml-3"
+          >
+            Back to title screen
+          </Button>
+        </div>
       )}
     </div>
   );

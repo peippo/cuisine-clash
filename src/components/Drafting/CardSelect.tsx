@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
 import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
 import { MAX_HAND_CARDS } from "@utils/constants";
@@ -21,10 +22,30 @@ const CardSelect = () => {
     }
   }, [cards]);
 
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!tableCards) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(".card", {
+        opacity: 0,
+        top: -20,
+        stagger: {
+          each: 0.1,
+          grid: [6, 2],
+        },
+      });
+    }, cardsRef);
+
+    return () => ctx.revert();
+  }, [tableCards]);
+
   return (
     <>
       <div
         role="listbox"
+        ref={cardsRef}
         className="flex min-h-[40rem] w-full flex-wrap items-center justify-center border-t-8 border-indigo-900 pt-5 pb-10 2xl:px-16"
       >
         {cards || tableCards.length ? (

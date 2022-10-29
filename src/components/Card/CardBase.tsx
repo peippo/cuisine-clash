@@ -61,7 +61,7 @@ const CardBase = ({
         !onClickHandler || isDisabled ? undefined : () => onClickHandler()
       }
       className={classNames(
-        "card relative mx-3 my-4 flex h-72 w-52 min-w-[13rem] flex-col justify-center p-2 text-center duration-300",
+        "card relative mx-3 my-4 flex h-72 w-52 min-w-[13rem] flex-col justify-center p-2 text-center",
         !isDisabled && "hover:cursor-pointer",
         !isDisabled && "card--active",
         view === "DRAFTING" && "card--active",

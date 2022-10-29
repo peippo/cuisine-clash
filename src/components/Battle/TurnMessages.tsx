@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
 import { useStore } from "@store/store";
 import classNames from "classnames";
 import type { TurnData } from "@customTypes/types";
@@ -16,6 +17,8 @@ const TurnMessages = () => {
 
   const [turnHistory, setTurnHistory] = useState<TurnData[]>([]);
 
+  const messageBoxRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!currentTurnData) return;
 
@@ -32,10 +35,22 @@ const TurnMessages = () => {
     return () => setTurnHistory([]);
   }, [currentTurnData]);
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(messageBoxRef.current, {
+        top: -30,
+        opacity: 0,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div
+      ref={messageBoxRef}
       className={classNames(
-        "relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg border-t border-indigo-900 bg-slate-1000/75 shadow-xl",
+        "box relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg border-t border-indigo-900 bg-slate-1000/75 shadow-xl",
         "after:absolute after:top-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-b after:from-slate-1000"
       )}
     >
@@ -63,7 +78,9 @@ const TurnMessages = () => {
               <EnemyAttackIcon width="14" className="mr-2" />
             )}
 
-            <p className="w-[39rem] truncate 2xl:w-[55rem]">{message}</p>
+            <p className="message w-[39rem] truncate 2xl:w-[55rem]">
+              {message}
+            </p>
           </div>
         </div>
       ))}

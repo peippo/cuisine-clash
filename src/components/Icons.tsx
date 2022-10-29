@@ -1,6 +1,6 @@
 type Props = {
   width: string;
-  className: string;
+  className?: string;
 };
 
 export const HeartIcon = (props: Props) => (

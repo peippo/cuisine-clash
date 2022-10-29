@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { MAX_DRAFT_CARDS } from "@utils/constants";
 import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
+import { Spinner } from "@components/Icons";
 
 const RedrawButton = () => {
   const playerCards = useStore((state) => state.playerCards);
@@ -28,9 +29,14 @@ const RedrawButton = () => {
           "group-disabled:from-stone-500 group-disabled:via-stone-800 group-disabled:to-stone-900 group-disabled:text-stone-500"
         )}
       >
-        {redrawsLeft}
+        {isLoading ? (
+          <Spinner width="32" className="animate-spin text-purple-500" />
+        ) : (
+          redrawsLeft
+        )}
       </span>
-      <span className="sr-only">rerolls available</span>
+      {!isLoading && <span className="sr-only">rerolls available</span>}
+
       <span className="flex pr-16 pt-1 pb-2 pl-5 md:pr-20 md:text-lg">
         {hasRedraws
           ? `Reroll ${MAX_DRAFT_CARDS - playerCards.length} cards`

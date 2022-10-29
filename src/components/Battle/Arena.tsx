@@ -10,11 +10,7 @@ import TurnMessages from "./TurnMessages";
 import StatusMessages from "./StatusMessages";
 import CardArea from "./CardArea";
 
-type Props = {
-  isLoadingEnemyCards: boolean;
-};
-
-const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
+const Arena = () => {
   const playerCard = useStore((state) => state.playerArenaCard);
   const enemyCard = useStore((state) => state.enemyArenaCard);
   const arenaStatus = useStore((state) => state.arenaStatus);
@@ -25,7 +21,7 @@ const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
   useArenaCardUpdater();
 
   useEffect(() => {
-    if (arenaStatus === "WAITING_FOR_ENEMY" && !isLoadingEnemyCards) {
+    if (arenaStatus === "WAITING_FOR_ENEMY") {
       setTimeout(() => {
         playRandomEnemyCard();
       }, getRandomBetween(1000, 2000));
@@ -33,7 +29,7 @@ const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
     if (arenaStatus === "BATTLE_ONGOING") {
       solveBattle();
     }
-  }, [arenaStatus, isLoadingEnemyCards]);
+  }, [arenaStatus]);
 
   return (
     <div className="flex w-full flex-wrap items-center justify-center gap-6 overflow-hidden lg:flex-nowrap xl:overflow-visible">

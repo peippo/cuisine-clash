@@ -1,5 +1,6 @@
 import { useStore } from "@store/store";
 import Head from "next/head";
+import useEnemyCards from "@hooks/useEnemyCards";
 
 import CardSelect from "@components/Drafting/CardSelect";
 import CardSelectCount from "@components/Drafting/CardSelectCount";
@@ -10,6 +11,7 @@ import { BattleIcon } from "@components/Icons";
 const Drafting = () => {
   const isHandFull = useStore((state) => state.isPlayerHandFull);
   const moveToView = useStore((state) => state.moveToView);
+  useEnemyCards();
 
   return (
     <>

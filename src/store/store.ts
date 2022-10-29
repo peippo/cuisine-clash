@@ -188,9 +188,6 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
     const max = get().enemyCards.length - 1;
     const randomCard = get().enemyCards[getRandomBetween(0, max)] as Dish;
 
-    const rarity = getCardRarity(randomCard);
-    randomCard.rarity = rarity;
-
     set((state) => ({
       enemyArenaCard: randomCard,
       enemyCards: state.enemyCards.filter((card) => card.id !== randomCard.id),
@@ -199,7 +196,15 @@ export const useStore = create<StoreState & StoreActions>((set, get) => ({
         : "WAITING_FOR_PLAYER",
     }));
   },
-  addCardsToEnemy: (cards) => set(() => ({ enemyCards: cards })),
+  addCardsToEnemy: (cards) => {
+    const ratedCards = cards.map((card) => {
+      card.rarity = getCardRarity(card);
+
+      return card;
+    });
+
+    set(() => ({ enemyCards: ratedCards }));
+  },
   returnEnemyArenaCard: () =>
     set((state) => ({
       enemyCards: [...state.enemyCards, state.enemyArenaCard as Dish],

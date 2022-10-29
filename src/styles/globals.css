@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-900 text-slate-400;
+  @apply bg-radial from-gray-900 via-gray-900 to-slate-1000 text-slate-400;
 }
 
 h1,

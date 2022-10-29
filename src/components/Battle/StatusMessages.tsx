@@ -30,7 +30,7 @@ const StatusMessages = () => {
     <div className="mt-5 flex w-full flex-col items-center justify-center lg:mt-0">
       {arenaStatus === "WAITING_FOR_PLAYER" && (
         <>
-          <p className="font-serif text-4xl text-slate-500">
+          <p className="font-serif text-4xl text-slate-500 shadow-md">
             Waiting for player
           </p>
           <svg
@@ -38,7 +38,7 @@ const StatusMessages = () => {
             viewBox="0 0 320 512"
             width="30"
             height="48"
-            className="text-slate-700 motion-safe:animate-pulse"
+            className="text-slate-700 shadow-lg motion-safe:animate-pulse"
           >
             <path
               fill="currentColor"
@@ -54,14 +54,14 @@ const StatusMessages = () => {
             viewBox="0 0 320 512"
             width="30"
             height="48"
-            className="text-slate-700 motion-safe:animate-pulse"
+            className="text-slate-700 shadow-lg motion-safe:animate-pulse"
           >
             <path
               fill="currentColor"
               d="M182.6 137.4a32 32 0 0 0-45.3 0l-128 128A32 32 0 0 0 32 320.1h256a32.1 32.1 0 0 0 22.7-54.7l-128-128z"
             />
           </svg>
-          <p className="font-serif text-4xl text-slate-500">
+          <p className="font-serif text-4xl text-slate-500 shadow-md">
             Waiting for enemy
           </p>
         </>

@@ -5,6 +5,8 @@ module.exports = {
     extend: {
       backgroundImage: {
         intro: "url('/intro-bg.svg')",
+        arena: "url('/arena-bg.svg')",
+        radial: "radial-gradient(var(--tw-gradient-stops))",
       },
       keyframes: {
         zoomInDown: {
@@ -107,6 +109,7 @@ module.exports = {
         "legendary-light": "#312205",
         epic: "#0f000f",
         "epic-light": "#1e001e",
+        "slate-1000": "#090c13",
       },
     },
     fontFamily: {

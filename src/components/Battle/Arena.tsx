@@ -36,7 +36,7 @@ const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
   }, [arenaStatus, isLoadingEnemyCards]);
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-center gap-6 overflow-hidden lg:flex-nowrap">
+    <div className="flex w-full flex-wrap items-center justify-center gap-6 overflow-hidden lg:flex-nowrap xl:overflow-visible">
       <CardArea actor="player">
         {playerCard && (
           <Card card={playerCard} isDisabled={true} isRevealed={true} />
@@ -58,6 +58,8 @@ const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
           />
         )}
       </CardArea>
+
+      <div className="absolute -z-10 h-4/6 w-[95%] rounded-full border-8 border-slate-800/50 bg-slate-1000/75 bg-arena bg-repeat"></div>
     </div>
   );
 };

@@ -35,8 +35,8 @@ const TurnMessages = () => {
   return (
     <div
       className={classNames(
-        "relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg bg-gray-900",
-        "after:absolute after:top-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-b after:from-gray-900"
+        "relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg border-t border-indigo-900 bg-slate-1000/75 shadow-xl",
+        "after:absolute after:top-0 after:left-0 after:h-32 after:w-full after:bg-gradient-to-b after:from-slate-1000"
       )}
     >
       {turnHistory?.map(({ round, actor, message, isBlocked, winner }) => (

@@ -10,7 +10,7 @@ const CardArea: React.FC<Props> = ({ children, actor }) => {
   return (
     <div
       className={classNames(
-        "relative h-80 w-60 min-w-[15rem] rounded-lg border-4 border-dotted border-slate-800",
+        "relative h-80 w-60 min-w-[15rem] rounded-2xl border-4 border-dotted border-slate-800 bg-slate-1000",
         actor === "player" ? "order-1" : "order-2 lg:order-3"
       )}
     >

@@ -4,6 +4,7 @@ import useDrawCards from "@hooks/useDrawCards";
 import { MAX_HAND_CARDS } from "@utils/constants";
 
 import Card from "@components/Card/CardBase";
+import LoadingShuffle from "./LoadingShuffle";
 
 const CardSelect = () => {
   const { cards } = useDrawCards();
@@ -40,7 +41,7 @@ const CardSelect = () => {
             />
           ))
         ) : (
-          <p className="my-5 text-2xl">Shuffling cards...</p>
+          <LoadingShuffle />
         )}
       </div>
     </>

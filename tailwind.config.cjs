@@ -30,10 +30,77 @@ module.exports = {
             opacity: 1,
           },
         },
+        loadingCard1: {
+          "15%": {
+            transform: "translateX(100px) rotate(15deg)",
+          },
+          "30%": {
+            transform: "translateX(-20px) rotate(-5deg)",
+          },
+          "50%": {
+            transform: "translateX(-20px) rotate(-5deg)",
+            "z-index": 10,
+          },
+          "65%": {
+            transform: "translateX(-10px)",
+            "z-index": 20,
+          },
+          "80%": {
+            transform: "translateX(-10px)",
+          },
+        },
+        loadingCard2: {
+          "15%": {
+            transform: "translateX(0)",
+          },
+          "30%": {
+            transform: "translateX(10px)",
+            "z-index": 30,
+          },
+          "50%": {
+            transform: "translateX(100px) rotate(15deg)",
+          },
+          "65%": {
+            transform: "translateX(-10px) rotate(-5deg)",
+          },
+          "80%": {
+            transform: "translateX(-10px) rotate(-5deg)",
+            "z-index": 10,
+          },
+        },
+        loadingCard3: {
+          "0%": {
+            transform: "rotate(-5deg)",
+            "z-index": 0,
+          },
+          "15%": {
+            transform: "translateX(0) rotate(-5deg)",
+          },
+          "30%": {
+            transform: "translateX(10px)",
+            "z-index": 20,
+          },
+          "50%": {
+            transform: "translateX(10px)",
+          },
+          "65%": {
+            transform: "translateX(20px)",
+            "z-index": 30,
+          },
+          "80%": {
+            transform: "translateX(120px) rotate(15deg)",
+          },
+          "100%": {
+            transform: "rotate(-5deg)",
+          },
+        },
       },
       animation: {
         "intro-logo": "zoomInDown 1.5s linear",
         "intro-content": "delayFadeIn 3s ease-in",
+        "loading-card-1": "loadingCard1 3s ease-in-out infinite",
+        "loading-card-2": "loadingCard2 3s ease-in-out infinite",
+        "loading-card-3": "loadingCard3 3s ease-in-out infinite",
       },
       colors: {
         legendary: "#1e1702",

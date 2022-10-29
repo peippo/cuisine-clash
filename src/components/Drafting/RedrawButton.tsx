@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { MAX_DRAFT_CARDS } from "@utils/constants";
 import { useStore } from "@store/store";
 import useDrawCards from "@hooks/useDrawCards";
-import { Spinner } from "@components/Icons";
+import { SpinnerIcon } from "@components/Icons";
 
 const RedrawButton = () => {
   const playerCards = useStore((state) => state.playerCards);
@@ -16,7 +16,7 @@ const RedrawButton = () => {
   return (
     <button
       className={classNames(
-        "group relative order-3 self-center rounded-lg border-t-2 border-l-2 border-indigo-600 bg-gradient-to-b from-indigo-700 to-indigo-900 text-cyan-100",
+        "group relative self-center rounded-lg border-t-2 border-l-2 border-indigo-600 bg-gradient-to-b from-indigo-700 to-indigo-900 text-cyan-100",
         "disabled:cursor-not-allowed disabled:border-slate-600 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-400",
         "hover:border-indigo-700 hover:bg-gradient-to-b hover:from-indigo-900 hover:to-indigo-800"
       )}
@@ -30,17 +30,17 @@ const RedrawButton = () => {
         )}
       >
         {isLoading ? (
-          <Spinner width="32" className="animate-spin text-purple-500" />
+          <SpinnerIcon width="32" className="animate-spin text-purple-500" />
         ) : (
           redrawsLeft
         )}
       </span>
-      {!isLoading && <span className="sr-only">rerolls available</span>}
+      {!isLoading && <span className="sr-only">redraws available</span>}
 
       <span className="flex pr-16 pt-1 pb-2 pl-5 md:pr-20 md:text-lg">
         {hasRedraws
-          ? `Reroll ${MAX_DRAFT_CARDS - playerCards.length} cards`
-          : "No rerolls left"}
+          ? `Redraw ${MAX_DRAFT_CARDS - playerCards.length} cards`
+          : "No redraws left"}
       </span>
     </button>
   );

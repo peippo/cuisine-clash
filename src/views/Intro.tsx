@@ -34,6 +34,7 @@ const Intro: React.FC<Props> = ({ isSmallScreen }) => {
           <Button
             onClickHandler={() => moveToView("DRAFTING")}
             isDisabled={isSmallScreen}
+            className="mt-6"
           >
             Start Game
           </Button>

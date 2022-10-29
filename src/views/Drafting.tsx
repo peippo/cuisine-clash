@@ -5,6 +5,7 @@ import CardSelect from "@components/Drafting/CardSelect";
 import CardSelectCount from "@components/Drafting/CardSelectCount";
 import RedrawButton from "@components/Drafting/RedrawButton";
 import Button from "@components/Button";
+import { BattleIcon } from "@components/Icons";
 
 const Drafting = () => {
   const isHandFull = useStore((state) => state.isPlayerHandFull);
@@ -19,21 +20,33 @@ const Drafting = () => {
         <section className="mt-8 flex flex-col items-center">
           <div className="flex w-full flex-wrap items-center justify-between">
             <CardSelectCount />
-            <h1 className="order-1 ml-10 mr-auto mb-5 basis-full text-center text-3xl text-indigo-400 md:text-4xl lg:mb-0 lg:basis-auto">
-              Draft your deck
-            </h1>
-            <RedrawButton />
+            <div className="order-1 ml-10 mr-auto mb-5 flex basis-full flex-col text-center lg:mb-0 lg:basis-auto">
+              <h1 className="-mb-1 text-3xl tracking-wide text-indigo-400 md:text-4xl">
+                Build your hand
+              </h1>
+              <p className="text-sm tracking-tight">
+                Discover the most powerful cards to battle for you
+              </p>
+            </div>
+
+            <div className="order-3">
+              {isHandFull ? (
+                <Button
+                  onClickHandler={() => moveToView("BATTLE")}
+                  className="flex items-center"
+                >
+                  <BattleIcon
+                    width="24"
+                    className="mr-4 text-yellow-400 shadow-md"
+                  />
+                  Go battle!
+                </Button>
+              ) : (
+                <RedrawButton />
+              )}
+            </div>
           </div>
           <CardSelect />
-
-          <div className="mb-12">
-            <Button
-              isDisabled={!isHandFull}
-              onClickHandler={() => moveToView("BATTLE")}
-            >
-              Go battle!
-            </Button>
-          </div>
         </section>
       </main>
     </>

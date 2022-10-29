@@ -36,7 +36,7 @@ const Arena: React.FC<Props> = ({ isLoadingEnemyCards }) => {
   }, [arenaStatus, isLoadingEnemyCards]);
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-center gap-6 lg:flex-nowrap">
+    <div className="flex w-full flex-wrap items-center justify-center gap-6 overflow-hidden lg:flex-nowrap">
       <CardArea actor="player">
         {playerCard && (
           <Card card={playerCard} isDisabled={true} isRevealed={true} />

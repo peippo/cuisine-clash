@@ -47,7 +47,7 @@ const TurnMessages = () => {
           <span className="mr-2 inline-block w-12 bg-indigo-900 py-1 px-3 text-right text-indigo-300">
             {round}
           </span>
-          <span
+          <div
             className={classNames(
               "flex",
               winner && "text-red-500",
@@ -63,8 +63,8 @@ const TurnMessages = () => {
               <EnemyAttackIcon width="14" className="mr-2" />
             )}
 
-            {message}
-          </span>
+            <p className="w-[39rem] truncate 2xl:w-[55rem]">{message}</p>
+          </div>
         </div>
       ))}
 

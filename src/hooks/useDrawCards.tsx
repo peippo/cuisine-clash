@@ -2,6 +2,12 @@ import { trpc } from "@utils/trpc";
 import { useStore } from "@store/store";
 import { MAX_HAND_CARDS } from "@utils/constants";
 
+/**
+ * Fetch cards from database
+ * @param {boolean} isEnemy If set to true, fetches cards for enemy
+ * @returns {array} Fetched cards
+ * @returns {boolean} Boolean telling if the fetch is currently in loading state
+ */
 const useDrawCards = ({ isEnemy = false } = {}) => {
   const redrawsLeft = useStore((state) => state.redrawsLeft);
   const countToFetch = useStore((state) => state.countToFetch);

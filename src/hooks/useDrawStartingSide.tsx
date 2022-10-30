@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useStore } from "@store/store";
 import { Battlers } from "@customTypes/types";
 
+/**
+ * Draw randomized starting player for the current game
+ */
 const useDrawStartingSide = () => {
   const arenaStatus = useStore((state) => state.arenaStatus);
   const startingSide = useStore((state) => state.startingSide);

@@ -10,6 +10,11 @@ type Variables = {
   bgY: string;
 };
 
+/**
+ * Returns values based on current cursor position on element hover
+ * @returns {object} Ref to attach to the target card
+ * @returns {object} Object containing the calculated variables
+ */
 const useCardVariables = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [variables, setVariables] = useState<Variables>({

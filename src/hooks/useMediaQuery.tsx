@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 /**
  *
- * @param queries List of queries to match
- * @returns Boolean value telling if the passed query/queries is a matching.
+ * @param {string[]} queries List of queries to match
+ * @returns {boolean} Boolean value telling if the passed query/queries is matching
  */
 function useMediaQuery(...queries: string[]): boolean {
   const supportMatchMedia =

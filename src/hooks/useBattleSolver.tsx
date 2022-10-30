@@ -4,6 +4,10 @@ import { useStore } from "@store/store";
 import { Dish } from "@prisma/client";
 import { TurnData } from "@customTypes/types";
 
+/**
+ * Fetches the results of battle between arena cards & updates turn data
+ * @returns {function} Function for triggering the battle solver
+ */
 const useBattleSolver = () => {
   const playerArenaCard = useStore((state) => state.playerArenaCard);
   const enemyArenaCard = useStore((state) => state.enemyArenaCard);

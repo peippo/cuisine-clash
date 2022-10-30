@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useStore } from "@store/store";
 
+/**
+ * Updates arena card hit points on every turn
+ */
 const useArenaCardUpdater = () => {
   const turnData = useStore((state) => state.turnData);
   const updatePlayerCard = useStore((state) => state.updatePlayerArenaCard);

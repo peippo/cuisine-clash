@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import classNames from "classnames";
 
@@ -19,7 +19,7 @@ const Button: React.FC<Props> = ({
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(buttonRef.current, {
         top: -20,

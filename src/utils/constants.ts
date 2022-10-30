@@ -1,4 +1,4 @@
-export const TOTAL_DISHES = 1711;
+export const TOTAL_DISHES = 1571;
 export const MAX_DRAFT_CARDS = 10;
 export const MAX_HAND_CARDS = 5;
 export const DRAFTING_REDRAWS = 3;

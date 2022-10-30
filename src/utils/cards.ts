@@ -74,3 +74,12 @@ export const getCardRotation = ({
       : `${Math.abs(distance) * 4}deg`;
   }
 };
+
+export const checkIsAlcoholic = (value: number | null) =>
+  value ? value >= 3 : false;
+export const checkHasIron = (value: number | null) =>
+  value ? value >= 3 : false;
+export const checkIsSalty = (value: number | null) =>
+  value ? value >= 1500 : false;
+export const checkHasVitamins = (value: number | null) =>
+  value ? value >= 35 : false;

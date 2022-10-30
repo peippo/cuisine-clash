@@ -3,6 +3,13 @@ import { z } from "zod";
 import { Dish } from "@prisma/client";
 import { Battlers } from "@customTypes/types";
 import { generateMessage } from "@utils/battle";
+import { getRandomBetween } from "@utils/general";
+import {
+  checkIsAlcoholic,
+  checkHasIron,
+  checkIsSalty,
+  checkHasVitamins,
+} from "@utils/cards";
 
 export const battleRouter = t.router({
   solve: t.procedure
@@ -53,10 +60,10 @@ export const battleRouter = t.router({
           attack: card.carb * 5,
           defence: card.protein,
           delay: card.carb + card.protein + card.fat,
-          isAlcoholic: card.alcohol ? card.alcohol >= 3 : false,
-          hasIron: card.iron ? card.iron >= 5 : false,
-          isSalty: card.salt ? card.salt >= 2000 : false,
-          hasVitamins: card.vitaminc ? card.vitaminc >= 40 : false,
+          isAlcoholic: checkIsAlcoholic(card.alcohol),
+          hasIron: checkHasIron(card.iron),
+          isSalty: checkIsSalty(card.salt),
+          hasVitamins: checkHasVitamins(card.vitaminc),
         };
       };
 
@@ -80,13 +87,39 @@ export const battleRouter = t.router({
       let delayFactor = Math.max(higherDelay, 1) / Math.max(lowerDelay, 1);
       delayFactor = Math.round(delayFactor);
 
+      // Generate turn data until one side is dead
       while (stats.player.hp > 0 && stats.enemy.hp > 0) {
         const attacker = battlers[0] as Battlers;
         const defender = battlers[1] as Battlers;
         let winner = undefined;
+        let damage = 0;
+
+        // Randomize damage
+        let modifierRange = { min: -5, max: 5 };
+
+        // Negative damage on certain conditions
+        if (stats[attacker]["isAlcoholic"] || stats[attacker]["isSalty"]) {
+          modifierRange = { min: -15, max: 0 };
+        }
+
+        // Positive damage on certain conditions
+        if (stats[attacker]["hasIron"] || stats[attacker]["hasVitamins"]) {
+          modifierRange = { min: 0, max: 15 };
+        }
 
         const isBlocked = Math.random() < stats[defender]["defence"] / 100;
-        const damage = isBlocked ? 0 : stats[attacker]["attack"];
+
+        if (!isBlocked) {
+          const modifierPercentage = getRandomBetween(
+            modifierRange.min,
+            modifierRange.max
+          );
+
+          const randomizedDamage =
+            stats[attacker]["attack"] * (1 + modifierPercentage / 100);
+
+          damage = Math.max(Math.floor(randomizedDamage), 0);
+        }
 
         stats[defender]["hp"] -= damage;
 
@@ -112,6 +145,7 @@ export const battleRouter = t.router({
 
         rounds.push(roundData);
 
+        // Set currently active side based on delay factor
         if (!delayFactor) {
           battlers.reverse();
         } else {

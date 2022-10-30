@@ -44,8 +44,11 @@ export const battleRouter = t.router({
       const rounds = [];
 
       const getStats = (card: Dish) => {
+        const nameFirstPart = card.name.split(",")[0] as string;
+
         return {
-          name: card.name.split(",")[0] as string,
+          name: nameFirstPart,
+          shortName: nameFirstPart.split(" ")[0] as string,
           hp: card.energy,
           attack: card.carb * 5,
           defence: card.protein,
@@ -98,6 +101,7 @@ export const battleRouter = t.router({
           message: generateMessage(
             stats[attacker].name,
             stats[defender].name,
+            stats[defender].shortName,
             damage,
             isBlocked,
             winner

@@ -56,6 +56,7 @@ const getMissMessage = () => {
 export const generateMessage = (
   attackerName: string,
   defenderName: string,
+  defenderNameShort: string,
   damage: number,
   isBlocked: boolean,
   winner: string | undefined
@@ -69,7 +70,7 @@ export const generateMessage = (
   } else {
     message = `${attackerName} ${getHitMessage(
       damage
-    )} and deals ${damage} damage`;
+    )} ${defenderNameShort} and deals ${damage} damage`;
   }
 
   if (winner) {

@@ -1,6 +1,9 @@
-import Button from "@components/Button";
+import { useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
 import { useStore } from "@store/store";
 import { useQueryClient } from "@tanstack/react-query";
+
+import Button from "@components/Button";
 
 const StatusMessages = () => {
   const queryClient = useQueryClient();
@@ -9,6 +12,20 @@ const StatusMessages = () => {
   const updateArenaStatus = useStore((state) => state.updateArenaStatus);
   const moveToView = useStore((state) => state.moveToView);
   const resetDrafting = useStore((state) => state.resetDrafting);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(containerRef.current, {
+        scale: 0.85,
+        opacity: 0,
+        delay: 0.25,
+      });
+    });
+
+    return () => ctx.revert();
+  }, [arenaStatus]);
 
   const resetGame = () => {
     queryClient.clear();
@@ -27,7 +44,10 @@ const StatusMessages = () => {
   };
 
   return (
-    <div className="mt-5 flex w-full flex-col items-center justify-center lg:mt-0">
+    <div
+      ref={containerRef}
+      className="mt-5 flex w-full flex-col items-center justify-center lg:mt-0"
+    >
       {arenaStatus === "WAITING_FOR_PLAYER" && (
         <>
           <p className="font-serif text-4xl text-slate-500 shadow-md">

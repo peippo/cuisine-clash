@@ -1,3 +1,5 @@
+import { useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
 import classNames from "classnames";
 
 type Props = {
@@ -15,6 +17,19 @@ const Button: React.FC<Props> = ({
   className,
   isSecondary,
 }) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(buttonRef.current, {
+        top: -20,
+        opacity: 0,
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   let baseStyles =
     "relative self-center rounded-lg border-t-2 border-l-2 border-indigo-600 bg-gradient-to-b from-indigo-700 to-indigo-900 py-2 px-8 pb-3 text-cyan-100 md:text-lg";
   let hoverStyles =
@@ -28,6 +43,7 @@ const Button: React.FC<Props> = ({
 
   return (
     <button
+      ref={buttonRef}
       onClick={onClickHandler}
       disabled={isDisabled}
       className={classNames(

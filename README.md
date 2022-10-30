@@ -2,7 +2,7 @@
 
 A food fighting card game built for [Solidabis](https://www.solidabis.com/) coding challenge. The task was to build a food themed "fighting simulator" revolving around nutritional values.
 
-Energy value represents hit points, carbohydrates is attack power (x5 to make the fights faster), protein is defence (chance to block) and the more carbs + protein + fat the card has, the slower it acts.
+Energy value represents hit points, carbohydrates is attack power (x5 to make the fights faster & slightly randomized), protein is defence (chance to block) and the more carbs + protein + fat the card has, the slower it acts. Some cards have special damage modifiers, and you might even get lucky and discover an epic or a legendary card!
 
 ### <a href="https://cuisine-clash.vercel.app/">Open the project</a>
 

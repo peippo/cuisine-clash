@@ -1,5 +1,6 @@
 import { Battlers } from "@customTypes/types";
 import classNames from "classnames";
+import DamageIndicator from "./DamageIndicator";
 
 type Props = {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ const CardArea: React.FC<Props> = ({ children, actor }) => {
         actor === "player" ? "order-1" : "order-2 lg:order-3"
       )}
     >
+      <DamageIndicator actor={actor} />
       <span className="absolute -top-9 uppercase text-slate-600">{actor}</span>
       <div className="absolute top-0 left-0">{children}</div>
     </div>

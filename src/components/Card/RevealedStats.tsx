@@ -49,10 +49,18 @@ const RevealedStats = ({
       aria-label="Stats"
       className="z-20 mb-0 mt-auto transition-colors duration-1000"
     >
-      {hasVitamins && <Tag>Vitamin rich</Tag>}
-      {hasIron && <Tag>Iron rich</Tag>}
-      {isSalty && <Tag isNegative={true}>High salt</Tag>}
-      {isAlcoholic && <Tag isNegative={true}>Drunken</Tag>}
+      {hasVitamins && <Tag rarity={rarity}>Vitamin rich</Tag>}
+      {hasIron && <Tag rarity={rarity}>Iron rich</Tag>}
+      {isSalty && (
+        <Tag rarity={rarity} isNegative={true}>
+          High salt
+        </Tag>
+      )}
+      {isAlcoholic && (
+        <Tag rarity={rarity} isNegative={true}>
+          Drunken
+        </Tag>
+      )}
 
       <li
         className={classNames(

@@ -38,7 +38,7 @@ const HandCards = () => {
           isPlayerTurn ? "-bottom-5" : "-bottom-40"
         )}
       >
-        <div className={`grid grid-cols-${playerCards.length}`}>
+        <div role="listbox" className={`grid grid-cols-${playerCards.length}`}>
           {playerCards.map((card, index) => (
             <div
               key={card.id}

@@ -16,7 +16,7 @@ const TurnMessages = () => {
   const currentTurnData = useStore((state) => state.turnData);
   const [turnHistory, setTurnHistory] = useState<TurnData[]>([]);
 
-  const messageBoxRef = useRef<HTMLDivElement>(null);
+  const messageBoxRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (!currentTurnData) return;
@@ -46,7 +46,7 @@ const TurnMessages = () => {
   }, []);
 
   return (
-    <div
+    <ul
       ref={messageBoxRef}
       className={classNames(
         "box relative flex h-72 w-full flex-col justify-end overflow-hidden rounded-lg border-t border-indigo-900 bg-slate-1000/75 shadow-xl",
@@ -54,7 +54,7 @@ const TurnMessages = () => {
       )}
     >
       {turnHistory?.map(({ round, actor, message, isBlocked, winner }) => (
-        <div
+        <li
           className="flex items-center border-b border-indigo-900 pr-4"
           key={round}
         >
@@ -81,13 +81,13 @@ const TurnMessages = () => {
               {message}
             </p>
           </div>
-        </div>
+        </li>
       ))}
 
       {currentTurnData?.winner && <NextTurnButton />}
 
       <TurnSpeedSelector />
-    </div>
+    </ul>
   );
 };
 

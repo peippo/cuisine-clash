@@ -156,3 +156,31 @@ export const BattleIcon = (props: Props) => (
     />
   </svg>
 );
+
+export const UpArrowIcon = (props: Props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 384 512"
+    aria-hidden="true"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M192 32L0 224v32H128V480H256V256H384V224L192 32z"
+    />
+  </svg>
+);
+
+export const DownArrowIcon = (props: Props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 384 512"
+    aria-hidden="true"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M214.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-9.2-9.2-11.9-22.9-6.9-34.9s16.6-19.8 29.6-19.8l96 0 0-184c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 184 96 0c12.9 0 24.6 7.8 29.6 19.8s2.2 25.7-6.9 34.9l-160 160z"
+    />
+  </svg>
+);

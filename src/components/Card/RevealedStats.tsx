@@ -2,27 +2,58 @@ import { useMemo } from "react";
 import classNames from "classnames";
 import { HeartIcon, ShieldIcon, SwordIcon } from "@components/Icons";
 import { CardRarity } from "@customTypes/types";
-import { getCardSpeed } from "@utils/cards";
+import {
+  getCardSpeed,
+  checkIsAlcoholic,
+  checkHasIron,
+  checkIsSalty,
+  checkHasVitamins,
+} from "@utils/cards";
+import Tag from "./Tag";
 
 type Props = {
   energy: number;
   carb: number;
   protein: number;
   fat: number;
+  alcohol: number | null;
+  iron: number | null;
+  salt: number | null;
+  vitaminc: number | null;
   rarity: CardRarity;
 };
 
-const RevealedStats = ({ energy, carb, protein, fat, rarity }: Props) => {
+const RevealedStats = ({
+  energy,
+  carb,
+  protein,
+  fat,
+  alcohol,
+  iron,
+  salt,
+  vitaminc,
+  rarity,
+}: Props) => {
   const isDead = !energy;
   const delay = carb + protein + fat;
 
   const speed = useMemo(() => getCardSpeed(delay), [delay]);
+
+  const isAlcoholic = checkIsAlcoholic(alcohol);
+  const hasIron = checkHasIron(iron);
+  const isSalty = checkIsSalty(salt);
+  const hasVitamins = checkHasVitamins(vitaminc);
 
   return (
     <ul
       aria-label="Stats"
       className="z-20 mb-0 mt-auto transition-colors duration-1000"
     >
+      {hasVitamins && <Tag>Vitamin rich</Tag>}
+      {hasIron && <Tag>Iron rich</Tag>}
+      {isSalty && <Tag isNegative={true}>High salt</Tag>}
+      {isAlcoholic && <Tag isNegative={true}>Drunken</Tag>}
+
       <li
         className={classNames(
           "my-2 flex items-center",
